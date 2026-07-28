@@ -8,34 +8,53 @@ interface VideoPreloaderProps {
 
 export default function VideoPreloader({ onComplete }: VideoPreloaderProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const hasCompletedRef = useRef(false);
   const [fadeVideo, setFadeVideo] = useState(false);
   const [showLogo, setShowLogo] = useState(false);
   const [logoFadingOut, setLogoFadingOut] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
 
   useEffect(() => {
-    // Lock scrolling
     document.body.style.overflow = "hidden";
 
-    // Video fade out starts at exactly 5 seconds, bringing the warm white background canvas into view
+    const completePreloader = () => {
+      if (hasCompletedRef.current) return;
+      hasCompletedRef.current = true;
+      document.body.style.overflow = "";
+      onComplete();
+    };
+
+    const startVideo = async () => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      video.muted = true;
+      video.playsInline = true;
+      video.playbackRate = 1.35;
+
+      try {
+        await video.play();
+      } catch {
+        setFadeVideo(true);
+        setShowLogo(true);
+      }
+    };
+
+    startVideo();
+
     const videoFadeTimer = setTimeout(() => {
       setFadeVideo(true);
       setShowLogo(true);
-    }, 5000);
+    }, 4200);
 
-    // After logo reaches 100% (takes 1.2s, so 6.2s total) and settles for exactly 400ms (so 6.6s total):
-    // Trigger logo fade out and general preloader fade out
     const logoFadeOutTimer = setTimeout(() => {
       setLogoFadingOut(true);
       setIsFadingOut(true);
-    }, 6600);
+    }, 5700);
 
-    // After 300ms fade transition (so 6.9s total):
-    // Complete the preloader and call onComplete to render the main site content
     const completeTimer = setTimeout(() => {
-      document.body.style.overflow = "";
-      onComplete();
-    }, 6900);
+      completePreloader();
+    }, 6100);
 
     return () => {
       clearTimeout(videoFadeTimer);
@@ -46,9 +65,12 @@ export default function VideoPreloader({ onComplete }: VideoPreloaderProps) {
   }, [onComplete]);
 
   const handleSkip = () => {
+    if (hasCompletedRef.current) return;
     setLogoFadingOut(true);
     setIsFadingOut(true);
     setTimeout(() => {
+      if (hasCompletedRef.current) return;
+      hasCompletedRef.current = true;
       document.body.style.overflow = "";
       onComplete();
     }, 300);
@@ -56,16 +78,17 @@ export default function VideoPreloader({ onComplete }: VideoPreloaderProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-[999] bg-[#FBFBFA] flex flex-col justify-center items-center transition-opacity duration-300 select-none ${
+      className={`fixed inset-0 z-[999] bg-[#FBFBFA] flex flex-col justify-center items-center transition-opacity duration-300 select-none overflow-hidden ${
         isFadingOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
+      style={{ minHeight: "100svh" }}
     >
       {/* Skip Intro */}
       <button
         onClick={handleSkip}
-        className="absolute top-8 right-8 z-[1000] flex items-center gap-2 px-4 py-2 bg-white/80 hover:bg-[#1A1A1A] border border-[#E2E2DF] hover:border-[#1A1A1A] rounded-full font-mono text-[10px] tracking-widest text-[#1A1A1A] hover:text-white uppercase transition-all duration-300 shadow-sm clickable"
+        className="absolute top-4 right-4 sm:top-8 sm:right-8 z-[1000] flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/85 hover:bg-[#1A1A1A] border border-[#E2E2DF] hover:border-[#1A1A1A] rounded-full font-mono text-[9px] sm:text-[10px] tracking-widest text-[#1A1A1A] hover:text-white uppercase transition-all duration-300 shadow-sm clickable"
       >
-        <span>Skip Intro</span>
+        <span>Skip</span>
         <X className="w-3.5 h-3.5" />
       </button>
 
@@ -81,13 +104,26 @@ export default function VideoPreloader({ onComplete }: VideoPreloaderProps) {
           muted
           playsInline
           loop
+          autoPlay
           preload="auto"
-          onCanPlayThrough={(e) => {
+          disablePictureInPicture
+          onLoadedData={(e) => {
             const vid = e.currentTarget;
-            vid.playbackRate = 1.6;
-            vid.play().catch(console.error);
+            vid.playbackRate = 1.35;
+            vid.play().catch(() => {
+              setFadeVideo(true);
+              setShowLogo(true);
+            });
           }}
-          className="absolute inset-0 w-full h-full object-cover scale-105"
+          onCanPlay={(e) => {
+            const vid = e.currentTarget;
+            vid.playbackRate = 1.35;
+            vid.play().catch(() => {
+              setFadeVideo(true);
+              setShowLogo(true);
+            });
+          }}
+          className="absolute inset-0 w-full h-full object-cover scale-110 sm:scale-105"
         />
 
         {/* Ambient Overlay inside video */}
@@ -97,10 +133,10 @@ export default function VideoPreloader({ onComplete }: VideoPreloaderProps) {
       {/* Absolute Centered Golden Logo Reveal Block */}
       {showLogo && (
         <div className="absolute inset-0 flex flex-col justify-center items-center pointer-events-none select-none z-50">
-          <div className="relative flex items-center justify-center w-64 h-64">
+          <div className="relative flex items-center justify-center w-56 h-56 sm:w-64 sm:h-64">
             
             {/* Einstein Lensing Rings SVG Backdrop */}
-            <svg className="absolute w-[450px] h-[450px] pointer-events-none select-none overflow-visible z-0" viewBox="0 0 200 200">
+            <svg className="absolute w-[340px] h-[340px] sm:w-[450px] sm:h-[450px] pointer-events-none select-none overflow-visible z-0" viewBox="0 0 200 200">
               {/* Inner Accretion Core Glow */}
               <motion.circle
                 cx="100"
@@ -171,7 +207,7 @@ export default function VideoPreloader({ onComplete }: VideoPreloaderProps) {
             <motion.img
               src="/Gold_BLACKFRAME_labs_logo.png"
               alt="Blackframe Labs Cinematic Reveal Logo"
-              className="relative w-52 h-auto object-contain z-10"
+              className="relative w-40 sm:w-52 h-auto object-contain z-10"
               initial={{ scale: 0.8, opacity: 0, filter: "blur(6px)" }}
               animate={
                 logoFadingOut
