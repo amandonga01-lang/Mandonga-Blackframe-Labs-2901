@@ -44,9 +44,7 @@ export default function App() {
       lenis.destroy();
     };
   }, []);
-  const [preloadComplete, setPreloadComplete] = useState(
-    () => typeof window !== "undefined" && window.matchMedia("(max-width: 1023px)").matches
-  );
+  const [preloadComplete, setPreloadComplete] = useState(false);
   const [currentPath, setCurrentPath] = useState("/");
 
   const routes = new Set(["/", "/home", "/team", "/capabilities", "/showcase", "/testimonials", "/book", "/solutions", "/careers"]);
