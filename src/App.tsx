@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Lenis from "lenis";
 
@@ -44,7 +44,22 @@ export default function App() {
       lenis.destroy();
     };
   }, []);
-  const [preloadComplete, setPreloadComplete] = useState(false);
+  // The cinematic intro plays once per browser session; returning visitors go straight in.
+  const [preloadComplete, setPreloadComplete] = useState(() => {
+    try {
+      return sessionStorage.getItem("bf-intro-seen") === "1" || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch {
+      return false;
+    }
+  });
+  const finishPreload = useCallback(() => {
+    try {
+      sessionStorage.setItem("bf-intro-seen", "1");
+    } catch {
+      /* storage unavailable */
+    }
+    setPreloadComplete(true);
+  }, []);
   const [currentPath, setCurrentPath] = useState("/");
 
   const routes = new Set(["/", "/home", "/team", "/capabilities", "/showcase", "/testimonials", "/book", "/solutions", "/careers"]);
@@ -147,7 +162,7 @@ export default function App() {
 
       {/* 2. Full-Screen Cinematic Video Preloader (Locks scroll, plays 6s, fades) */}
       {!preloadComplete && (
-        <VideoPreloader onComplete={() => setPreloadComplete(true)} />
+        <VideoPreloader onComplete={finishPreload} />
       )}
 
       {/* 3. Main Site Architecture (Revealed after preloader completes) */}

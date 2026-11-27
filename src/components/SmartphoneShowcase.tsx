@@ -41,7 +41,7 @@ function ReelVideoPlayer({ url, isActive }: ReelVideoPlayerProps) {
       muted
       playsInline
       loop
-      preload="auto"
+      preload={isActive ? "auto" : "metadata"}
       className="w-full h-full object-cover brightness-[92%] saturate-[102%]"
     />
   );
@@ -86,9 +86,9 @@ export default function SmartphoneShowcase() {
   const reels: ReelVideo[] = [
     {
       id: 1,
-      title: "Wilderness Survival // Hook 1",
-      client: "Randall Shaw",
-      url: "/RANDALL SHOW.mp4",
+      title: "Cerca // AI UGC Ad",
+      client: "Cerca",
+      url: "/work/ugc-cerca.mp4",
       likes: 12450,
       shares: 3410,
       views: 78926,
@@ -96,9 +96,9 @@ export default function SmartphoneShowcase() {
     },
     {
       id: 2,
-      title: "The Caravan Podcast // AE FX Overlays",
-      client: "Naveed & Humza",
-      url: "https://assets.mixkit.co/videos/preview/mixkit-neon-light-from-a-tunnel-41865-large.mp4",
+      title: "Wilderness Survival // Retention Cut",
+      client: "Randall Shaw",
+      url: "/work/randall-reel-1.mp4",
       likes: 42100,
       shares: 9810,
       views: 245100,
@@ -106,9 +106,9 @@ export default function SmartphoneShowcase() {
     },
     {
       id: 3,
-      title: "Superintelligence // Timeline Grading",
-      client: "Kim & Peter",
-      url: "/KIM ISENBERG INFO.mp4",
+      title: "Morning Mistakes // Fitness Reel",
+      client: "Fitness creator",
+      url: "/work/morning-mistakes.mp4",
       likes: 98500,
       shares: 24300,
       views: 520400,

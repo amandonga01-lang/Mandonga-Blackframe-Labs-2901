@@ -2,6 +2,8 @@ import { useState, ChangeEvent, FormEvent, useEffect, useRef } from "react";
 import { Send, Check, User, Mail, Link, Clock, MapPin, Radio, Phone, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
+const STUDIO_EMAIL = "hello@blackframelab.com";
+
 export default function TerminalBookingForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   
@@ -24,6 +26,7 @@ export default function TerminalBookingForm() {
   const submitRef = useRef<HTMLDivElement>(null);
 
   const availableServices = [
+    "AI UGC Ads",
     "Short-Form Editing",
     "Podcast Repurposing",
     "Real Estate Video Editing",
@@ -95,8 +98,43 @@ export default function TerminalBookingForm() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const [submitError, setSubmitError] = useState("");
+
+  const buildBrief = () =>
+    [
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      `Phone: ${formData.phone}`,
+      `Channel / website: ${formData.socialLink}`,
+      `Location: ${formData.location}`,
+      `Services: ${formData.services.join(", ")}`,
+      `Video length / volume: ${formData.duration}`,
+      `Raw footage: ${formData.rawAssets}`,
+      `Budget: ${formData.budget}`,
+    ].join("\n");
+
+  // Sends the brief to the studio inbox. With VITE_WEB3FORMS_KEY set (free key from web3forms.com)
+  // it is delivered silently; otherwise the visitor's email app opens with the brief pre-filled.
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setSubmitError("");
+    const subject = `New project brief from ${formData.name}`;
+    const key = import.meta.env.VITE_WEB3FORMS_KEY as string | undefined;
+    if (key) {
+      try {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ access_key: key, subject, from_name: "Blackframe Labs website", replyto: formData.email, message: buildBrief() }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        setIsSubmitted(true);
+        return;
+      } catch {
+        setSubmitError("We couldn't send that automatically. Your email app will open with the brief instead.");
+      }
+    }
+    window.location.href = `mailto:${STUDIO_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(buildBrief())}`;
     setIsSubmitted(true);
   };
 
@@ -477,6 +515,7 @@ export default function TerminalBookingForm() {
                       Submit Project Brief <Send className="w-4 h-4" />
                     </span>
                   </motion.button>
+                  {submitError && <p role="alert" className="mt-3 text-xs text-[#B3261E]">{submitError}</p>}
                 </div>
 
               </form>

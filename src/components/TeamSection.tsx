@@ -6,40 +6,40 @@ interface TeamMember {
   name: string;
   role: string;
   bio: string;
-  avatarUrl: string;
+  avatarUrl?: string;
   skills: string[];
 }
 
 export default function TeamSection() {
   const [imgFailed, setImgFailed] = useState(false);
+  // Falls back to initials if a portrait is missing or unreadable.
+  const [failedAvatars, setFailedAvatars] = useState<Record<string, boolean>>({});
 
   const team: TeamMember[] = [
     {
       name: "Aman Donga",
       role: "Co-Founder & CEO",
       bio: "Leads client operations, project planning, and delivery systems so every edit moves from brief to final file with clarity and speed.",
-      avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400",
       skills: ["Client Strategy", "Project Operations", "Delivery Systems"],
     },
     {
       name: "Het Vaghasiya",
       role: "Co-Founder & COO / Creative Director",
       bio: "Shapes the creative direction, pacing, visual style, and sound approach behind each project, keeping client content consistent and polished.",
-      avatarUrl: "/het_portrait_2.png",
+      avatarUrl: "/team/het.jpg",
       skills: ["Creative Direction", "Visual Style", "Motion Design"],
     },
     {
       name: "Harsh Parmar",
       role: "Senior Video Editor",
       bio: "Specializes in clean timelines, color polish, dynamic edits, and audio assembly for short-form, long-form, and campaign content.",
-      avatarUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400",
       skills: ["Premiere Pro", "Color Polish", "Sound Design"],
     },
     {
       name: "Jimit Ramani",
       role: "Junior Video Editor",
       bio: "Focuses on vertical editing, captions, pacing, and motion details that make social-first content feel sharp and consistent.",
-      avatarUrl: "/jimit_portrait.jpeg",
+      avatarUrl: "/team/jimit.jpg",
       skills: ["Vertical Editing", "Captions", "Dialogue Pacing"],
     },
   ];
@@ -131,15 +131,19 @@ export default function TeamSection() {
                 >
                   {/* Portrait Avatar with Premium Grayscale to Color Transition */}
                   <div className="w-20 h-20 md:w-24 md:h-24 shrink-0 rounded-xl overflow-hidden border border-[#E2E2DF] bg-[#F5F5F3] relative outline outline-2 outline-offset-2 outline-transparent group-hover:outline-[#C69214]/50 transition-all duration-500">
-                    <img
-                      src={member.avatarUrl}
-                      alt={member.name}
-                      onError={(event) => {
-                        event.currentTarget.src = "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=400";
-                      }}
-                      className="w-full h-full object-cover team-avatar-img"
-                      referrerPolicy="no-referrer"
-                    />
+                    {member.avatarUrl && !failedAvatars[member.name] ? (
+                      <img
+                        src={member.avatarUrl}
+                        alt={member.name}
+                        loading="lazy"
+                        onError={() => setFailedAvatars((prev) => ({ ...prev, [member.name]: true }))}
+                        className="w-full h-full object-cover team-avatar-img"
+                      />
+                    ) : (
+                      <div aria-label={member.name} className="w-full h-full flex items-center justify-center bg-[#1A1A1A] text-[#C69214] font-black text-2xl tracking-tight">
+                        {member.name.split(" ").map((part) => part[0]).join("").slice(0, 2)}
+                      </div>
+                    )}
                     
                     <div className="absolute top-1 left-1 bg-black/80 px-1 py-0.5 rounded text-[7px] font-mono tracking-widest text-[#C69214]">
                       Team

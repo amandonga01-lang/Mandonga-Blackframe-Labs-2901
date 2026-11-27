@@ -5,6 +5,13 @@ interface FooterProps {
   onPathChange: (path: string) => void;
 }
 
+// Add the studio's real profile URLs here; icons only render for entries that exist.
+const SOCIAL_LINKS: { href: string; label: string; Icon: typeof Globe }[] = [
+  // { href: "https://www.instagram.com/your-handle", label: "Instagram", Icon: Instagram },
+  // { href: "https://www.linkedin.com/company/your-company", label: "LinkedIn", Icon: Linkedin },
+  // { href: "https://x.com/your-handle", label: "X / Twitter", Icon: Twitter },
+];
+
 export default function Footer({ onPathChange }: FooterProps) {
   return (
     <>
@@ -21,12 +28,15 @@ export default function Footer({ onPathChange }: FooterProps) {
             </span>
           </div>
           
-          <div className="flex items-center gap-6">
-            <button className="hover:text-[#C69214] transition-colors"><Globe className="w-5 h-5" /></button>
-            <button className="hover:text-[#C69214] transition-colors"><Twitter className="w-5 h-5" /></button>
-            <button className="hover:text-[#C69214] transition-colors"><Instagram className="w-5 h-5" /></button>
-            <button className="hover:text-[#C69214] transition-colors"><Linkedin className="w-5 h-5" /></button>
-          </div>
+          {SOCIAL_LINKS.length > 0 && (
+            <div className="flex items-center gap-6">
+              {SOCIAL_LINKS.map(({ href, label, Icon }) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="hover:text-[#C69214] transition-colors">
+                  <Icon className="w-5 h-5" />
+                </a>
+              ))}
+            </div>
+          )}
         </div>
 
 
@@ -60,13 +70,13 @@ export default function Footer({ onPathChange }: FooterProps) {
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-4">
               <h4 className="font-bold font-mono tracking-widest uppercase mb-1 text-[11px] md:text-xs text-[#1A1A1A]">CONTACT US</h4>
-              <span className="text-[#5F6368] font-medium">Call: +1 (555) 123-4567</span>
-              <span className="text-[#5F6368] font-medium">Email: hello@blackframelab.com</span>
+              <a href="https://wa.me/919428614172" target="_blank" rel="noopener noreferrer" className="text-[#5F6368] font-medium hover:text-[#C69214]">WhatsApp: +91 94286 14172</a>
+              <a href="mailto:hello@blackframelab.com" className="text-[#5F6368] font-medium hover:text-[#C69214]">Email: hello@blackframelab.com</a>
             </div>
             
             <div className="flex flex-col gap-4">
               <h4 className="font-bold font-mono tracking-widest uppercase mb-1 text-[11px] md:text-xs text-[#1A1A1A]">CAREER ENQUIRY</h4>
-              <span className="text-[#5F6368] font-medium">Email: join@blackframelab.com</span>
+              <a href="mailto:join@blackframelab.com" className="text-[#5F6368] font-medium hover:text-[#C69214]">Email: join@blackframelab.com</a>
             </div>
           </div>
         </div>
