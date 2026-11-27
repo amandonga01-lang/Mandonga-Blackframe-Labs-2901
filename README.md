@@ -1,14 +1,21 @@
-# Mandonga Blackframe Labs 2901
+# Blackframe Labs website
 
-Professional video editing studio website for Blackframe Labs.
+Vite + React + Tailwind. Deployed on Vercel (preset: Vite, build `npm run build`, output `dist`).
 
-## Vercel deployment
+## Changing content (no design work needed)
 
-Use these settings on Vercel:
+| What | Where |
+| --- | --- |
+| Email, WhatsApp, calendar link, social links, prices, FAQ, team, testimonials | `src/lib/site.ts` |
+| Portfolio items, home-page reel, client names | `src/data/work.ts` |
+| Portfolio videos and posters | `public/work/<id>.mp4` and `public/work/<id>.jpg` |
+| Team photos | `public/team/<name>.jpg`, then add `photo: "/team/<name>.jpg"` to that person in `src/lib/site.ts` |
 
-- Framework preset: Vite
-- Install command: npm install
-- Build command: npm run build
-- Output directory: dist
+Optional: set `VITE_WEB3FORMS_KEY` (free at web3forms.com) in Vercel → Settings → Environment Variables so the contact form delivers straight to the inbox instead of opening the visitor's email app.
 
-The site assets are served from the public folder and the app source is in src.
+## Develop
+
+```
+npm install
+npm run dev
+```

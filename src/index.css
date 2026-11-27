@@ -1,115 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
+/* Black Frame: an edit suite, not a SaaS landing page.
+   Ink canvas, bone type, one tally-amber accent, timecode as the typographic detail. */
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  --color-brand-gold: #C69214; /* Refined darker gold for premium contrast on light theme */
-  --color-brand-dark: #202124; /* NotebookLM dark slate */
-  --color-brand-black: #1A1A1A; /* Crisp clinical text color */
-  --color-paper-white: #FBFBFA; /* Primary NotebookLM paper background */
-  --color-studio-white: #FFFFFF; /* High-fidelity clean cards */
-  --color-border-light: #E2E2DF; /* Structural boundary border */
+  --font-display: "Anton", "Impact", "Arial Narrow", sans-serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-ink: #0A0A0A;
+  --color-panel: #131312;
+  --color-rule: #2A2926;
+  --color-bone: #EDEAE4;
+  --color-dim: #9B968C; /* 6.6:1 on ink */
+  --color-tally: #FFB000; /* 10.6:1 on ink */
 }
 
-/* Custom light-themed premium scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #F5F5F3;
-}
-::-webkit-scrollbar-thumb {
-  background: #D0D0CD;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #202124;
-}
-
-html, body {
-  background-color: #FBFBFA;
-  color: #1A1A1A;
+html {
+  background: var(--color-ink);
+  color: var(--color-bone);
   font-family: var(--font-sans);
-  scroll-behavior: smooth;
-  margin: 0;
-  padding: 0;
-  overflow-x: clip;
-  overscroll-behavior-y: auto;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-@media (max-width: 1023px) {
-  html, body {
-    scroll-padding-top: 4rem;
-    scroll-behavior: auto;
-    touch-action: pan-y;
-    -webkit-overflow-scrolling: touch;
-  }
+body {
+  margin: 0;
+  overflow-x: clip;
 }
 
-.glow-subtle {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02), 0 1px 3px rgba(0, 0, 0, 0.05);
+::selection {
+  background: var(--color-tally);
+  color: var(--color-ink);
 }
 
-.glow-gold-subtle {
-  box-shadow: 0 10px 40px rgba(198, 146, 20, 0.08);
+:focus-visible {
+  outline: 2px solid var(--color-tally);
+  outline-offset: 3px;
 }
 
-.text-stroke-dark {
-  -webkit-text-stroke: 1px rgba(26, 26, 26, 0.2);
-  color: transparent;
+/* Display headlines: condensed, tight, uppercase like a title card. */
+.display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+  font-weight: 400;
 }
 
-.text-gradient-dark-gold {
-  background: linear-gradient(135deg, #1A1A1A 0%, #C69214 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Timecode labels. */
+.tc {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
 }
 
-/* For infinite marquee scrolling in light mode */
-@keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+/* The black frame: one dark frame flashed on every cut. */
+.black-frame {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 100;
+  pointer-events: none;
 }
 
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 28s linear infinite;
+/* Film-strip sprocket edge used on the hero timeline. */
+.sprockets {
+  height: 10px;
+  background-image: repeating-linear-gradient(90deg, transparent 0 6px, rgba(237, 234, 228, 0.18) 6px 14px, transparent 14px 20px);
+  background-size: 20px 6px;
+  background-repeat: repeat-x;
+  background-position: 0 center;
 }
 
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
-/* Fade animation for video/page transitions */
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.98); filter: blur(4px); }
-  to { opacity: 1; transform: scale(1); filter: blur(0px); }
-}
-
-.animate-page-enter {
-  animation: fadeIn 450ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-/* Premium profile photo hover effect with smooth grayscale-to-color transition */
-@media (hover: hover) {
-  .team-avatar-img {
-    filter: grayscale(100%);
-    transition: filter 500ms ease-in-out;
-    image-rendering: -webkit-optimize-contrast;
-    backface-visibility: hidden;
-  }
-  .group:hover .team-avatar-img {
-    filter: grayscale(0%);
-  }
-}
-
-@media (hover: none) {
-  .team-avatar-img {
-    filter: grayscale(0%);
-    image-rendering: -webkit-optimize-contrast;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
   }
 }

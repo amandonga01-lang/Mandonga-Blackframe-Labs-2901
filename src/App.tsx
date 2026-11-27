@@ -1,218 +1,108 @@
-import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import Lenis from "lenis";
-
-import VideoPreloader from "./components/VideoPreloader";
-import NavigationBar from "./components/NavigationBar";
-import HeroSection from "./components/HeroSection";
-import WhoWeAre from "./components/WhoWeAre";
-import MiloLine from "./components/MiloLine";
-import CapabilitiesMarquee from "./components/CapabilitiesMarquee";
-import ShowcaseCinemaGrid from "./components/ShowcaseCinemaGrid";
-import TestimonialsSwitchboard from "./components/TestimonialsSwitchboard";
-import SolutionsPage from "./components/SolutionsPage";
-import CareersPage from "./components/CareersPage";
-import TeamSection from "./components/TeamSection";
-import FAQAccordion from "./components/FAQAccordion";
-import TerminalBookingForm from "./components/TerminalBookingForm";
-import GargantuaLogo from "./components/GargantuaLogo";
-import SmartphoneShowcase from "./components/SmartphoneShowcase";
-import MotionStripDivider from "./components/MotionStripDivider";
+import { useEffect, useState } from "react";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Work from "./pages/Work";
+import Services from "./pages/Services";
+import Studio from "./pages/Studio";
+import Contact from "./pages/Contact";
+import Careers from "./pages/Careers";
+
+export type Route = "/" | "/work" | "/services" | "/studio" | "/contact" | "/careers";
+
+// Old URLs keep working.
+const ALIASES: Record<string, Route> = {
+  "/": "/",
+  "/home": "/",
+  "/work": "/work",
+  "/showcase": "/work",
+  "/services": "/services",
+  "/capabilities": "/services",
+  "/solutions": "/services",
+  "/studio": "/studio",
+  "/team": "/studio",
+  "/testimonials": "/studio",
+  "/contact": "/contact",
+  "/book": "/contact",
+  "/careers": "/careers",
+};
+
+const TITLES: Record<Route, string> = {
+  "/": "Blackframe Labs: AI UGC ads, short-form and podcast editing",
+  "/work": "Work | Blackframe Labs",
+  "/services": "Services | Blackframe Labs",
+  "/studio": "Studio | Blackframe Labs",
+  "/contact": "Send footage | Blackframe Labs",
+  "/careers": "Careers | Blackframe Labs",
+};
+
+const readRoute = (): Route => {
+  const raw = window.location.hash.replace(/^#/, "").split("?")[0] || "/";
+  return ALIASES[raw] ?? "/";
+};
+
+const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export default function App() {
-  // Global Lenis smooth scrolling setup
+  // Read the hash synchronously so deep links never mount the home page first.
+  const [route, setRoute] = useState<Route>(readRoute);
+  const [cutting, setCutting] = useState(false);
+  // Remount the page when the query changes too (e.g. #/work?c=podcast -> #/work?c=ugc).
+  const [hashKey, setHashKey] = useState(() => window.location.hash);
+
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 2.2, // Increased for a longer, smoother momentum tail
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: "vertical",
-      gestureOrientation: "vertical",
-      smoothWheel: true,
-      wheelMultiplier: 0.35, // Reduced drastically to make scroll feel much slower and heavier
-      touchMultiplier: 1.2,
-    });
-
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    return () => {
-      lenis.destroy();
+    const onHash = () => {
+      const next = readRoute();
+      // A hard cut between pages: one black frame, then the new page.
+      if (!reducedMotion()) {
+        setCutting(true);
+        window.setTimeout(() => setCutting(false), 70);
+      }
+      setRoute(next);
+      setHashKey(window.location.hash);
+      window.scrollTo(0, 0);
     };
-  }, []);
-  // The cinematic intro plays once per browser session; returning visitors go straight in.
-  const [preloadComplete, setPreloadComplete] = useState(() => {
-    try {
-      return sessionStorage.getItem("bf-intro-seen") === "1" || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    } catch {
-      return false;
-    }
-  });
-  const finishPreload = useCallback(() => {
-    try {
-      sessionStorage.setItem("bf-intro-seen", "1");
-    } catch {
-      /* storage unavailable */
-    }
-    setPreloadComplete(true);
-  }, []);
-  const [currentPath, setCurrentPath] = useState("/");
-
-  const routes = new Set(["/", "/home", "/team", "/capabilities", "/showcase", "/testimonials", "/book", "/solutions", "/careers"]);
-
-  // Client-side hash routing resolver for AI Studio preview URLs.
-  const getPathFromHash = () => {
-    const hashPath = window.location.hash.startsWith("#") ? window.location.hash.substring(1) : "/";
-    return routes.has(hashPath) ? hashPath : "/";
-  };
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      setCurrentPath(getPathFromHash());
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    };
-
-    window.addEventListener("hashchange", handleHashChange);
-    setCurrentPath(getPathFromHash());
-
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
   useEffect(() => {
-    if (preloadComplete) {
-      window.scrollTo({ top: 0, behavior: "auto" });
-    }
-  }, [preloadComplete, currentPath]);
+    document.title = TITLES[route];
+  }, [route]);
 
-  const handlePathChange = (path: string) => {
-    const nextPath = path === "/home" ? "/" : path;
-    setCurrentPath(nextPath);
-    window.location.hash = nextPath === "/" ? "#/" : `#${nextPath}`;
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  // Render one route at a time so the site behaves like multiple pages, not one long scroll.
-  const renderRoute = () => {
-    switch (currentPath) {
-      case "/team":
-        return (
-          <div id="team">
-            <WhoWeAre />
-            <TeamSection />
-          </div>
-        );
-      case "/capabilities":
-        return (
-          <div id="capabilities">
-            <CapabilitiesMarquee />
-            <MiloLine />
-          </div>
-        );
-      case "/showcase":
-        return (
-          <div id="showcase">
-            <ShowcaseCinemaGrid />
-          </div>
-        );
-      case "/testimonials":
-        return (
-          <div id="testimonials">
-            <TestimonialsSwitchboard />
-          </div>
-        );
-      case "/solutions":
-        return (
-          <div id="solutions">
-            <SolutionsPage />
-          </div>
-        );
+  const page = (() => {
+    switch (route) {
+      case "/work":
+        return <Work />;
+      case "/services":
+        return <Services />;
+      case "/studio":
+        return <Studio />;
+      case "/contact":
+        return <Contact />;
       case "/careers":
-        return (
-          <div id="careers">
-            <CareersPage />
-          </div>
-        );
-      case "/book":
-        return (
-          <div id="book">
-            <TerminalBookingForm />
-          </div>
-        );
-      case "/":
-      case "/home":
+        return <Careers />;
       default:
-        return (
-          <div id="home">
-            <HeroSection onPathChange={handlePathChange} startAnimation={preloadComplete} />
-            <SmartphoneShowcase />
-            <MiloLine />
-          </div>
-        );
+        return <Home />;
     }
-  };
+  })();
 
   return (
     <>
-      {/* 1. Custom Lag-Free Camera Reticle Cursor */}
-
-
-      {/* 2. Full-Screen Cinematic Video Preloader (Locks scroll, plays 6s, fades) */}
-      {!preloadComplete && (
-        <VideoPreloader onComplete={finishPreload} />
-      )}
-
-      {/* 3. Main Site Architecture (Revealed after preloader completes) */}
-      <div 
-        className={`relative min-h-screen transition-opacity duration-1000 ${
-          preloadComplete ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+      {/* Hash routing owns the URL fragment, so "skip" focuses <main> instead of linking to #main. */}
+      <button
+        type="button"
+        onClick={() => document.getElementById("main")?.focus()}
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200] bg-tally text-ink px-3 py-2"
       >
-        {/* Global Background Parallax Image with 85% opacity overlay blended as fine texture */}
-        <div 
-          className="fixed inset-0 z-0 pointer-events-none opacity-[0.06] select-none"
-          style={{
-            backgroundImage: "url('/Gold_BLACKFRAME_labs_logo.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-
-        {/* Floating Pill Navigation Bar */}
-        <NavigationBar currentPath={currentPath} onPathChange={handlePathChange} />
-
-        {/* Dynamic Route View wrapper */}
-        <main className="relative z-10 w-full min-h-[80vh] pt-16">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentPath}
-              initial={{ opacity: 0, filter: "blur(6px)", y: 8 }}
-              animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-              exit={{ opacity: 0, filter: "blur(6px)", y: -8 }}
-              transition={{
-                duration: 0.45,
-                ease: [0.22, 1, 0.36, 1], // Cinematic custom curve
-              }}
-              className="w-full"
-            >
-              {renderRoute()}
-            </motion.div>
-          </AnimatePresence>
-        </main>
-
-        {/* Booking FAQ belongs to the Book page instead of extending every route. */}
-        {currentPath === "/book" && (
-          <div className="relative z-10">
-            <FAQAccordion />
-          </div>
-        )}
-
-        {/* New Symmetrical Footer */}
-        <Footer onPathChange={handlePathChange} />
-      </div>
+        Skip to content
+      </button>
+      <Header route={route} />
+      <main id="main" key={hashKey} tabIndex={-1} className="outline-none">
+        {page}
+      </main>
+      <Footer />
+      {cutting && <div className="black-frame" aria-hidden="true" />}
     </>
   );
 }
