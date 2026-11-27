@@ -1,4 +1,5 @@
 import Avatar from "../components/Avatar";
+import { Spotlight, WordReveal } from "../components/motion";
 import ClosingCta from "../components/ClosingCta";
 import { TEAM, TESTIMONIALS } from "../lib/site";
 
@@ -12,8 +13,9 @@ const RULES = [
 export default function Studio() {
   return (
     <>
-      <section className="mx-auto max-w-[1400px] px-4 md:px-8 pt-12 md:pt-16 pb-16">
-        <h1 className="display text-[22vw] md:text-[11rem]">The studio</h1>
+      <section className="relative overflow-hidden mx-auto max-w-[1400px] px-4 md:px-8 pt-12 md:pt-16 pb-16">
+        <Spotlight />
+        <WordReveal lines={["The studio"]} className="display text-[22vw] md:text-[11rem]" />
         <div className="mt-6 grid gap-6 md:grid-cols-2 max-w-5xl text-lg text-bone/90 leading-relaxed">
           <p>
             Blackframe Labs is four editors in India. We started cutting creator content and podcasts, then got pulled into paid social, where a video either holds

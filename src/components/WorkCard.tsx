@@ -18,7 +18,7 @@ export default function WorkCard({ item, onOpen, index }: { item: WorkItem; onOp
           v.currentTime = 0;
         }
       }}
-      className={`group text-left flex flex-col gap-2 ${vertical ? "" : "sm:col-span-2"}`}
+      className={`group w-full text-left flex flex-col gap-2 ${vertical ? "" : "sm:col-span-2"}`}
     >
       <span className={`relative block w-full overflow-hidden bg-panel ${vertical ? "aspect-[9/16]" : "aspect-video"}`}>
         <img src={posterUrl(item)} alt="" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
@@ -33,7 +33,6 @@ export default function WorkCard({ item, onOpen, index }: { item: WorkItem; onOp
         />
         <span className="absolute top-0 left-0 tc bg-ink/80 px-2 py-1 text-bone">{String(index + 1).padStart(3, "0")}</span>
         <span className="absolute bottom-0 right-0 tc bg-ink/80 px-2 py-1 text-bone">{item.length}</span>
-        {item.variants && <span className="absolute top-0 right-0 tc bg-tally text-ink px-2 py-1">{item.variants.length} hooks</span>}
         <span className="absolute inset-0 ring-0 group-hover:ring-2 group-focus-visible:ring-2 ring-tally ring-inset" />
       </span>
       <span className="flex items-baseline justify-between gap-3">

@@ -7,6 +7,7 @@ import Services from "./pages/Services";
 import Studio from "./pages/Studio";
 import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
+import { TalkMarquee } from "./components/motion";
 
 export type Route = "/" | "/work" | "/services" | "/studio" | "/contact" | "/careers";
 
@@ -28,13 +29,15 @@ const ALIASES: Record<string, Route> = {
 };
 
 const TITLES: Record<Route, string> = {
-  "/": "Blackframe Labs: AI UGC ads, short-form and podcast editing",
+  "/": "Blackframe Labs: podcast, talking-head and short-form editing",
   "/work": "Work | Blackframe Labs",
   "/services": "Services | Blackframe Labs",
   "/studio": "Studio | Blackframe Labs",
   "/contact": "Send footage | Blackframe Labs",
   "/careers": "Careers | Blackframe Labs",
 };
+
+const LABELS: Record<Route, string> = { "/": "Home", "/work": "Work", "/services": "Services", "/studio": "Studio", "/contact": "Send footage", "/careers": "Careers" };
 
 const readRoute = (): Route => {
   const raw = window.location.hash.replace(/^#/, "").split("?")[0] || "/";
@@ -46,24 +49,37 @@ const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)"
 export default function App() {
   // Read the hash synchronously so deep links never mount the home page first.
   const [route, setRoute] = useState<Route>(readRoute);
-  const [cutting, setCutting] = useState(false);
+  // Page transition phase: idle -> in (slate covers) -> out (slate leaves) -> idle.
+  const [phase, setPhase] = useState<"idle" | "in" | "out">("idle");
+  const [slateLabel, setSlateLabel] = useState("");
   // Remount the page when the query changes too (e.g. #/work?c=podcast -> #/work?c=ugc).
   const [hashKey, setHashKey] = useState(() => window.location.hash);
 
   useEffect(() => {
-    const onHash = () => {
-      const next = readRoute();
-      // A hard cut between pages: one black frame, then the new page.
-      if (!reducedMotion()) {
-        setCutting(true);
-        window.setTimeout(() => setCutting(false), 70);
-      }
-      setRoute(next);
+    const timers: number[] = [];
+    const swap = () => {
+      setRoute(readRoute());
       setHashKey(window.location.hash);
       window.scrollTo(0, 0);
     };
+    const onHash = () => {
+      timers.forEach(clearTimeout);
+      if (reducedMotion()) return swap();
+      setSlateLabel(LABELS[readRoute()]);
+      setPhase("in");
+      timers.push(
+        window.setTimeout(() => {
+          swap();
+          setPhase("out");
+        }, 340),
+        window.setTimeout(() => setPhase("idle"), 340 + 560),
+      );
+    };
     window.addEventListener("hashchange", onHash);
-    return () => window.removeEventListener("hashchange", onHash);
+    return () => {
+      window.removeEventListener("hashchange", onHash);
+      timers.forEach(clearTimeout);
+    };
   }, []);
 
   useEffect(() => {
@@ -101,8 +117,16 @@ export default function App() {
       <main id="main" key={hashKey} tabIndex={-1} className="outline-none">
         {page}
       </main>
+      {route !== "/contact" && <TalkMarquee />}
       <Footer />
-      {cutting && <div className="black-frame" aria-hidden="true" />}
+      <div className="slate" data-phase={phase} aria-hidden="true" style={phase === "idle" ? { visibility: "hidden" } : undefined}>
+        <div className="flex flex-col items-center gap-3">
+          <span className="tc text-dim">00:00:00:00</span>
+          <span className="display text-6xl md:text-8xl text-bone">
+            <span className="text-tally">▸</span> {slateLabel}
+          </span>
+        </div>
+      </div>
     </>
   );
 }

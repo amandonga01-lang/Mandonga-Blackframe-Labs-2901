@@ -8,7 +8,7 @@ export default function Footer() {
         <div>
           <Wordmark size="lg" />
           <p className="mt-4 max-w-xs text-dim">
-            A four-person edit studio in India. We cut ads, reels and podcasts for brands and creators in the US, UK and beyond.
+            A four-person edit studio in India. We cut podcasts, talking heads, short-form and Meta ads for founders, creators and brands in the US, UK and beyond.
           </p>
         </div>
 

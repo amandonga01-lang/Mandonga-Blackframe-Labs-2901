@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from "react";
+import { Spotlight, WordReveal } from "../components/motion";
 import { CALENDAR_URL, STUDIO_EMAIL, WHATSAPP_DISPLAY, whatsappLink } from "../lib/site";
 
-const NEEDS = ["AI UGC ads", "Short-form", "Podcast", "Motion / SaaS", "Real estate", "Not sure yet"];
+const NEEDS = ["Podcast", "Talking heads", "Short-form", "Meta AI UGC ads", "SaaS / product", "Real estate", "Not sure yet"];
 const BUDGETS = ["Under $500", "$500–2k", "$2k–5k", "$5k+", "Not sure yet"];
 
 type Status = "idle" | "sending" | "sent" | "mailto" | "error";
@@ -53,13 +54,10 @@ export default function Contact() {
   };
 
   return (
-    <section className="mx-auto max-w-[1400px] px-4 md:px-8 pt-12 md:pt-16 pb-24 grid gap-14 lg:grid-cols-[5fr_7fr] lg:gap-20">
+    <section className="relative overflow-hidden mx-auto max-w-[1400px] px-4 md:px-8 pt-12 md:pt-16 pb-24 grid gap-14 lg:grid-cols-[5fr_7fr] lg:gap-20">
+        <Spotlight />
       <div>
-        <h1 className="display text-[20vw] md:text-[9rem]">
-          Send
-          <br />
-          footage.
-        </h1>
+        <WordReveal lines={["Send", "[footage.]"]} className="display text-[20vw] md:text-[9rem]" />
         <p className="mt-6 text-lg text-bone/90 max-w-md">
           Tell us what you need and drop a link if you have one. A founder replies, usually within 12 hours, with how we'd cut it, a price and a date.
         </p>

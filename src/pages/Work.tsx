@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
+import { Spotlight, WordReveal } from "../components/motion";
 import WorkCard from "../components/WorkCard";
 import VideoModal from "../components/VideoModal";
 import ClosingCta from "../components/ClosingCta";
-import { CATEGORY_LABELS, CATEGORY_ORDER, WORK, type WorkCategory } from "../data/work";
+import { CATEGORY_LABELS, CATEGORY_ORDER, EPISODES, WORK, type WorkCategory } from "../data/work";
+import YouTube from "../components/YouTube";
 
 const PAGE = 12;
 
@@ -28,11 +30,17 @@ export default function Work() {
 
   return (
     <>
-      <section className="mx-auto max-w-[1400px] px-4 md:px-8 pt-12 md:pt-16">
-        <h1 className="display text-[22vw] md:text-[11rem]">The work</h1>
-        <p className="mt-4 max-w-xl text-lg text-bone/90">
-          {WORK.length} pieces, all real client work. Click anything to watch it with sound.
-        </p>
+      <section className="relative overflow-hidden mx-auto max-w-[1400px] px-4 md:px-8 pt-12 md:pt-16">
+        <Spotlight />
+        <div className="flex items-end justify-between gap-8">
+          <div>
+            <WordReveal lines={["The work"]} className="display text-[22vw] md:text-[11rem]" />
+            <p className="mt-4 max-w-xl text-lg text-bone/90">
+              {WORK.length} pieces plus full episodes, all real client work. Click anything to watch it with sound.
+            </p>
+          </div>
+          <video src="/work/showreel-916.mp4" poster="/work/showreel-916.jpg" muted loop autoPlay playsInline preload="metadata" aria-label="Studio montage" className="hidden md:block w-40 lg:w-52 aspect-[9/16] object-cover border border-rule shrink-0" />
+        </div>
       </section>
 
       <div className="sticky top-16 z-30 bg-ink/95 backdrop-blur-sm border-y border-rule mt-10">
@@ -56,6 +64,18 @@ export default function Work() {
           })}
         </div>
       </div>
+
+      {(category === "all" || category === "podcast") && EPISODES.length > 0 && (
+        <section aria-label="Full episodes" className="mx-auto max-w-[1400px] px-4 md:px-8 pt-10">
+          <h2 className="display text-4xl md:text-5xl">Full episodes</h2>
+          <div className="mt-6 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {EPISODES.map((ep) => (
+              <YouTube key={ep.youtubeId} ep={ep} />
+            ))}
+          </div>
+          <h2 className="display text-4xl md:text-5xl mt-14">Clips & cuts</h2>
+        </section>
+      )}
 
       <section className="mx-auto max-w-[1400px] px-4 md:px-8 py-10">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-3 gap-y-8 grid-flow-dense">

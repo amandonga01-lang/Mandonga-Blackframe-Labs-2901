@@ -1,8 +1,21 @@
 import ClosingCta from "../components/ClosingCta";
+import { Spotlight, WordReveal } from "../components/motion";
 import { CATEGORY_LABELS, WORK, posterUrl, type WorkCategory } from "../data/work";
 import { FAQS, PRICES } from "../lib/site";
 
 const SERVICES: { category: WorkCategory; sample: string; for: string; get: string[] }[] = [
+  {
+    category: "podcast",
+    sample: "caravan-open-recap",
+    for: "Shows that want the full YouTube episode and the clips that grow it.",
+    get: ["Multicam full-episode edit for YouTube", "Audio cleanup and levelling", "Clips picked for the moments that travel", "Branded captions, intro and lower thirds"],
+  },
+  {
+    category: "reels",
+    sample: "randall-reel-1",
+    for: "Founders, coaches and creators on camera, posting every week.",
+    get: ["A hook in the first second, then pattern interrupts", "Kinetic captions in your brand style", "Sound design and music", "Shorts, Reels and TikTok exports"],
+  },
   {
     category: "ugc",
     sample: "ugc-cerca",
@@ -10,22 +23,10 @@ const SERVICES: { category: WorkCategory; sample: string; for: string; get: stri
     get: ["Several hook variants per script, ready to test", "Captions that carry the pitch with the sound off", "9:16, 4:5 and 1:1 exports", "AI-generated scenes and avatars when the brief calls for it"],
   },
   {
-    category: "reels",
-    sample: "randall-reel-1",
-    for: "Creators, coaches and founders posting every week.",
-    get: ["A hook in the first second, then pattern interrupts", "Kinetic captions in your brand style", "Sound design and music", "Shorts, Reels and TikTok exports"],
-  },
-  {
-    category: "podcast",
-    sample: "caravan-open-recap",
-    for: "Shows that want the full episode and the clips that grow it.",
-    get: ["Multicam full-episode edit", "Audio cleanup and levelling", "Clips picked for the moments that travel", "Branded captions, intro and lower thirds"],
-  },
-  {
     category: "motion",
-    sample: "helo-demo",
+    sample: "base360",
     for: "SaaS and tech teams launching a product or feature.",
-    get: ["Product demos with UI animation", "Explainers and show intros", "Kinetic type and logo animation", "Versions for site, socials and sales decks"],
+    get: ["Founder films that mix talking head and UI", "Product demos with UI animation", "Explainers and show intros", "Kinetic type and logo animation", "Versions for site, socials and sales decks"],
   },
   {
     category: "realestate",
@@ -44,9 +45,10 @@ const MODELS = [
 export default function Services() {
   return (
     <>
-      <section className="mx-auto max-w-[1400px] px-4 md:px-8 pt-12 md:pt-16 pb-6">
-        <h1 className="display text-[22vw] md:text-[11rem]">Services</h1>
-        <p className="mt-4 max-w-xl text-lg text-bone/90">Five kinds of video, three ways to work with us. Every job starts with footage and a goal, not a form.</p>
+      <section className="relative overflow-hidden mx-auto max-w-[1400px] px-4 md:px-8 pt-12 md:pt-16 pb-6">
+        <Spotlight />
+        <WordReveal lines={["Services"]} className="display text-[22vw] md:text-[11rem]" />
+        <p className="mt-4 max-w-xl text-lg text-bone/90">Podcasts and talking heads first, Meta AI UGC ads alongside. Three ways to work with us. Every job starts with footage and a goal, not a form.</p>
       </section>
 
       <section aria-label="What we edit" className="mx-auto max-w-[1400px] px-4 md:px-8">

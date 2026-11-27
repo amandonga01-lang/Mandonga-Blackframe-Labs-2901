@@ -57,16 +57,6 @@ export default function VideoModal({ items, index, onIndex, onClose }: Props) {
 
       <div className="flex-1 min-h-0 flex flex-col lg:flex-row">
         <div className="flex-1 min-h-0 flex items-center justify-center p-3 md:p-6">
-          {item.variants ? (
-            <div className="grid grid-cols-3 lg:grid-cols-6 gap-2 w-full max-w-6xl">
-              {item.variants.map((src, i) => (
-                <figure key={src} className="flex flex-col gap-1">
-                  <video src={src} controls muted playsInline loop autoPlay preload="metadata" className="w-full aspect-[9/16] bg-panel object-cover" />
-                  <figcaption className="tc text-dim">Hook {String.fromCharCode(65 + i)}</figcaption>
-                </figure>
-              ))}
-            </div>
-          ) : (
             <video
               key={item.id}
               src={videoUrl(item)}
@@ -76,7 +66,6 @@ export default function VideoModal({ items, index, onIndex, onClose }: Props) {
               playsInline
               className={vertical ? "h-full max-h-[78vh] aspect-[9/16] bg-black" : "w-full max-w-5xl max-h-[78vh] aspect-video bg-black"}
             />
-          )}
         </div>
 
         <aside className="lg:w-[340px] shrink-0 border-t lg:border-t-0 lg:border-l border-rule p-5 md:p-6 flex flex-col gap-4 overflow-y-auto">
