@@ -7,7 +7,6 @@ interface CreatorTestimonial {
   id: string;
   name: string;
   channel: string;
-  avatarUrl: string;
   metrics: string;
   statLabel: string;
   quote: string;
@@ -64,7 +63,6 @@ export default function TestimonialsSwitchboard() {
       id: "test-1",
       name: "Randall Shaw",
       channel: "Wilderness Creator",
-      avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
       metrics: "+340k Subscribers in 60 days",
       statLabel: "Growth result",
       quote: "Blackframe Labs turned my raw wilderness footage into clean, fast-paced edits that immediately felt more professional and easier to watch.",
@@ -75,7 +73,6 @@ export default function TestimonialsSwitchboard() {
       id: "test-2",
       name: "Naveed Haque & Humza Shazad",
       channel: "The Caravan Podcast",
-      avatarUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
       metrics: "5.4m+ Cumulative views",
       statLabel: "Distribution impact",
       quote: "We needed an editing team that could keep long conversations engaging while making the clips feel clean, branded, and ready for every platform.",
@@ -86,7 +83,6 @@ export default function TestimonialsSwitchboard() {
       id: "test-3",
       name: "Kim Isenberg & Peter Thum",
       channel: "Superintelligence Labs",
-      avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
       metrics: "2.8x Click-through multiplier",
       statLabel: "Engagement lift",
       quote: "Direct access to the editing team made the process faster. We could review, refine, and publish without unnecessary back-and-forth.",
@@ -287,14 +283,14 @@ export default function TestimonialsSwitchboard() {
                     )}
 
                     <div className="w-10 h-10 rounded-xl overflow-hidden shrink-0 border border-[#E2E2DF] bg-[#F5F5F3]">
-                      <img
-                        src={client.avatarUrl}
-                        alt={client.name}
-                        className={`w-full h-full object-cover transition-all ${
-                          isActive ? "grayscale-0" : "grayscale group-hover:grayscale-0"
+                      <div
+                        aria-hidden="true"
+                        className={`w-full h-full flex items-center justify-center font-black text-sm ${
+                          isActive ? "bg-[#C69214] text-[#1A1A1A]" : "bg-[#1A1A1A] text-[#C69214]"
                         }`}
-                        referrerPolicy="no-referrer"
-                      />
+                      >
+                        {client.name.split(" ").filter((part) => /^[A-Z]/.test(part)).map((part) => part[0]).join("").slice(0, 2)}
+                      </div>
                     </div>
 
                     <div className="min-w-0 flex-grow text-left">

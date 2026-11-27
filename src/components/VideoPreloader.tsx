@@ -100,7 +100,7 @@ export default function VideoPreloader({ onComplete }: VideoPreloaderProps) {
       >
         <video
           ref={videoRef}
-          src="/magnific_prompt-create-an-8second-_kLFkIO616B.mp4"
+          src="/intro.mp4"
           muted
           playsInline
           loop
