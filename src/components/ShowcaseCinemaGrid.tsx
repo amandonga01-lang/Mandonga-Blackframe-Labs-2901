@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { WORK, CATEGORY_LABELS, CATEGORY_ORDER, type WorkCategory, type WorkItem } from "../data/work";
 import { ArrowUpRight, Clock, Film, Play, Sparkles, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
@@ -297,7 +298,8 @@ export default function ShowcaseCinemaGrid() {
           </AnimatePresence>
         </div>
 
-        {/* Project preview modal */}
+        {/* Project preview modal: portalled to <body> so the route transition's transform can't offset it */}
+        {createPortal(
         <AnimatePresence>
           {selectedProject && (
             <motion.div 
@@ -375,6 +377,9 @@ export default function ShowcaseCinemaGrid() {
             </motion.div>
           )}
         </AnimatePresence>
+,
+          document.body
+        )}
 
       </div>
     </section>
