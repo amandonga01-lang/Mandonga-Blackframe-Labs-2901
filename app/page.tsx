@@ -1,25 +1,41 @@
-import TimecodeLabel from "@/components/type/TimecodeLabel";
-import RevealLines from "@/components/type/RevealLines";
-import Button from "@/components/ui/Button";
-import { bookingUrl, site } from "@/content/site";
+import type { Metadata } from "next";
+import Hero from "@/components/hero/Hero";
+import Showreel from "@/components/sections/Showreel";
+import ClientMarquee from "@/components/sections/ClientMarquee";
+import SelectedWork from "@/components/sections/SelectedWork";
+import ServicesList from "@/components/sections/ServicesList";
+import Results, { hasResults } from "@/components/sections/Results";
+import CaseHighlight, { featuredCase } from "@/components/sections/CaseHighlight";
+import ProcessScroll from "@/components/sections/ProcessScroll";
+import Testimonials, { hasTestimonials } from "@/components/sections/Testimonials";
+import AiHuman from "@/components/sections/AiHuman";
+import Faq from "@/components/sections/Faq";
+import FinalCta from "@/components/sections/FinalCta";
+import { faq } from "@/content/faq";
+import { portfolio } from "@/content/portfolio";
+import { JsonLd, videoLd } from "@/lib/seo";
 
-// Phase 1 placeholder home: layout, type and chrome only. Sections arrive in Phase 3.
+export const metadata: Metadata = { alternates: { canonical: "/" } };
+
 export default function Home() {
+  // Section timecodes count up only through sections that actually render.
+  let n = 0;
+  const next = () => ++n;
   return (
     <>
-    <section className="relative overflow-hidden min-h-[100svh] flex items-end">
-      <div className="glow" aria-hidden="true" />
-      <div className="wrap w-full pb-24 pt-40">
-        <TimecodeLabel index={0} rec>{site.hero.label}</TimecodeLabel>
-        <RevealLines as="h1" immediate className="t-hero mt-6 max-w-[14ch]" lines={["We edit videos", "people actually", "finish watching."]} />
-        <p className="t-body mt-8">{site.hero.sub}</p>
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Button href={bookingUrl()} event="book_call_click" size="lg">Book a call</Button>
-          <Button href="/work" variant="outline" size="lg">Watch showreel</Button>
-        </div>
-      </div>
-    </section>
-    <section aria-hidden="true" className="h-[150vh]" />
+      <Hero />
+      <Showreel index={next()} />
+      <ClientMarquee />
+      <SelectedWork index={next()} />
+      <ServicesList index={next()} />
+      {hasResults() && <Results index={next()} />}
+      {featuredCase() && <CaseHighlight index={next()} />}
+      <ProcessScroll index={next()} />
+      {hasTestimonials() && <Testimonials index={next()} />}
+      <AiHuman index={next()} />
+      <Faq index={next()} items={faq} />
+      <FinalCta index={next()} />
+      <JsonLd data={videoLd(portfolio.filter((p) => p.featured))} />
     </>
   );
 }
