@@ -16,7 +16,7 @@ const CLIPS: { slug: string; track: number; x: number; w: number }[] = [
 
 export default function TimelineCSS({ animated = true }: { animated?: boolean }) {
   return (
-    <div aria-hidden="true" className="absolute inset-0 overflow-hidden [perspective:1400px]">
+    <div id="hero-css" aria-hidden="true" className="absolute inset-0 overflow-hidden [perspective:1400px] transition-opacity duration-[1200ms] ease-studio">
       <div
         className="absolute right-[-8%] top-[10%] h-[85%] w-[78%] origin-right [transform-style:preserve-3d]"
         style={{ transform: "rotateY(-24deg) rotateX(8deg)" }}
