@@ -3,7 +3,7 @@
 export function isLowPower(): boolean {
   if (typeof window === "undefined") return true;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return true;
-  if (window.matchMedia("(max-width: 767px)").matches) return true;
+  if (window.matchMedia("(max-width: 1023px)").matches) return true;
   if (!window.matchMedia("(pointer: fine)").matches) return true;
   const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } };
   if (nav.connection?.saveData) return true;

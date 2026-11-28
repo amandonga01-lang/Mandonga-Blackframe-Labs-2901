@@ -48,7 +48,7 @@ export default function Nav() {
               <RecDot /> {site.availability}
             </span>
           )}
-          <ul className="mx-auto hidden md:flex items-center gap-1">
+          <ul className="mx-auto hidden lg:flex items-center gap-1">
             {NAV.map((l) => {
               const active = path === l.href || path.startsWith(l.href + "/");
               return (
@@ -65,7 +65,7 @@ export default function Nav() {
               );
             })}
           </ul>
-          <div className="ml-auto md:ml-0 flex items-center gap-2">
+          <div className="ml-auto lg:ml-0 flex items-center gap-2">
             <span className="hidden sm:block">
               <Button href={bookingUrl()} event="book_call_click">
                 Book a call
@@ -76,7 +76,7 @@ export default function Nav() {
               onClick={() => setOpen((o) => !o)}
               aria-expanded={open}
               aria-controls="mobile-menu"
-              className="md:hidden h-11 rounded-full border border-muted px-4 t-mono"
+              className="lg:hidden h-11 rounded-full border border-muted px-4 t-mono"
             >
               {open ? "Close" : "Menu"}
             </button>

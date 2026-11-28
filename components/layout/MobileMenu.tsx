@@ -43,7 +43,7 @@ export default function MobileMenu({ onClose }: { onClose: () => void }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5, ease: EASE }}
-      className="fixed inset-0 z-40 bg-ink px-5 pt-24 pb-8 flex flex-col md:hidden"
+      className="fixed inset-0 z-40 bg-ink px-5 md:px-12 pt-24 pb-8 flex flex-col lg:hidden"
     >
       <nav aria-label="Mobile">
         <ol>

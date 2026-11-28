@@ -63,7 +63,9 @@ function Scene({ texture, progress, pointer }: { texture: THREE.VideoTexture; pr
   const group = useRef<THREE.Group>(null);
   const playhead = useRef<THREE.Group>(null);
   const clipRefs = useRef<(THREE.Group | null)[]>([]);
-  const { invalidate } = useThree();
+  const { invalidate, viewport } = useThree();
+  // Keep the timeline in the right half at any aspect ratio (wider screens push it further right).
+  const baseX = viewport.width * 0.5 - 0.5;
 
   const data = useMemo(
     () =>
@@ -121,7 +123,7 @@ function Scene({ texture, progress, pointer }: { texture: THREE.VideoTexture; pr
   });
 
   return (
-    <group ref={group} rotation={[0.1, -0.5, 0]} position={[4.2, 0.1, -0.6]}>
+    <group ref={group} rotation={[0.1, -0.5, 0]} position={[baseX, 0.1, -0.6]}>
       {TRACK_Y.map((y) => (
         <mesh key={y} position={[0.6, y - 0.75, -0.01]} material={trackMat}>
           <planeGeometry args={[16, 0.006]} />
