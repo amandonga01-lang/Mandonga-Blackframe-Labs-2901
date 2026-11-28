@@ -51,7 +51,7 @@ export default function WorkBrowser({ only }: { only?: FilterId }) {
                     active ? "border-signal bg-signal text-ink" : "border-muted bg-ink/70 text-text-2 hover:border-text hover:text-text"
                   }`}
                 >
-                  {f.label} <span className="opacity-60">{count}</span>
+                  {f.label} <span>{count}</span>
                 </button>
               );
             })}

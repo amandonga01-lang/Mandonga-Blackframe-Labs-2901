@@ -23,11 +23,10 @@ export default function YouTubeEmbed({ ep }: { ep: Episode }) {
             type="button"
             data-cursor="play"
             onClick={() => { setPlay(true); track("video_play", { slug: ep.youtubeId, where: "youtube" }); }}
-            aria-label={`Play full episode: ${ep.title}`}
             className="group absolute inset-0"
           >
             <Image src={`https://i.ytimg.com/vi/${ep.youtubeId}/hqdefault.jpg`} alt="" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover opacity-85 transition-opacity duration-700 group-hover:opacity-100" />
-            <span className="t-mono absolute left-4 bottom-4 rounded-full bg-ink/75 px-3 py-1.5">▶ Full episode · {ep.duration}</span>
+            <span className="t-mono absolute left-4 bottom-4 rounded-full bg-ink/75 px-3 py-1.5">▶ Full episode · {ep.duration}<span className="sr-only">: {ep.title}</span></span>
           </button>
         )}
       </div>

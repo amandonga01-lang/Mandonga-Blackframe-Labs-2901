@@ -28,8 +28,8 @@ export default function CaseStudiesPage() {
             {list.map((c, i) => {
               const hero = bySlug(c.heroSlug);
               return (
-                <Reveal key={c.slug} delay={(i % 2) * 0.08}>
-                  <li>
+                <li key={c.slug}>
+                  <Reveal delay={(i % 2) * 0.08}>
                     <Link href={`/case-studies/${c.slug}`} className="group block">
                       <span className="relative block aspect-video overflow-hidden rounded-lg bg-surface">
                         {hero && <Image src={hero.poster} alt="" fill sizes="50vw" className="object-cover transition-transform duration-[1.2s] ease-studio group-hover:scale-[1.03]" />}
@@ -38,8 +38,8 @@ export default function CaseStudiesPage() {
                       <span className="t-mono mt-4 block text-text-3">{c.client}</span>
                       <span className="t-h3 mt-2 block">{c.title}</span>
                     </Link>
-                  </li>
-                </Reveal>
+                  </Reveal>
+                </li>
               );
             })}
           </ul>

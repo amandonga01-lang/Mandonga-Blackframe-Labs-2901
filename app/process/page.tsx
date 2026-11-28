@@ -23,8 +23,8 @@ export default function ProcessPage() {
       <section className="wrap pb-[var(--section-y)]">
         <ol className="border-t border-muted/70">
           {process.map((p, i) => (
-            <Reveal key={p.title}>
-              <li className="grid-12 gap-y-6 border-b border-muted/70 py-12 md:py-16">
+            <li key={p.title} className="border-b border-muted/70">
+              <Reveal className="grid-12 gap-y-6 py-12 md:py-16">
                 <p className="t-mono text-text-3 col-span-12 md:col-span-1">{String(i + 1).padStart(2, "0")}</p>
                 <div className="col-span-12 md:col-span-5">
                   <h2 className="t-h2">{p.title}</h2>
@@ -37,8 +37,8 @@ export default function ProcessPage() {
                     <div><dt className="t-mono text-text-3">We</dt><dd className="mt-2">{DETAIL[p.title]?.we}</dd></div>
                   </dl>
                 </div>
-              </li>
-            </Reveal>
+              </Reveal>
+            </li>
           ))}
         </ol>
       </section>

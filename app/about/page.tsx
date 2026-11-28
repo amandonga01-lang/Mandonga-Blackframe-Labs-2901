@@ -42,8 +42,8 @@ export default function AboutPage() {
         <SectionHead index={1} label="Team" lines={["The people", "cutting your videos."]} size="t-h2" />
         <ul className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-x-[var(--gutter)] gap-y-12">
           {site.team.map((p, i) => (
-            <Reveal key={p.name} delay={i * 0.08}>
-              <li>
+            <li key={p.name}>
+              <Reveal delay={i * 0.08}>
                 <div className="relative aspect-[4/5] overflow-hidden rounded-lg border border-muted bg-surface">
                   {p.photo ? (
                     <Image src={p.photo} alt={p.name} fill sizes="25vw" className="object-cover" />
@@ -55,8 +55,8 @@ export default function AboutPage() {
                 </div>
                 <p className="mt-4 text-[18px]">{p.name}</p>
                 <p className="t-mono text-text-3 mt-1">{p.role}</p>
-              </li>
-            </Reveal>
+              </Reveal>
+            </li>
           ))}
         </ul>
       </section>
@@ -64,13 +64,13 @@ export default function AboutPage() {
         <SectionHead index={2} label="House rules" lines={["How we work."]} size="t-h2" />
         <ol className="mt-16 grid gap-[var(--gutter)] md:grid-cols-2">
           {RULES.map((r, i) => (
-            <Reveal key={r.t} delay={(i % 2) * 0.08}>
-              <li className="rounded-xl border border-muted p-8 md:p-10 h-full">
+            <li key={r.t}>
+              <Reveal delay={(i % 2) * 0.08} className="rounded-xl border border-muted p-8 md:p-10 h-full">
                 <p className="t-mono text-text-3">{String(i + 1).padStart(2, "0")}</p>
                 <h3 className="t-h3 mt-4">{r.t}</h3>
                 <p className="t-body mt-3 text-[17px]">{r.b}</p>
-              </li>
-            </Reveal>
+              </Reveal>
+            </li>
           ))}
         </ol>
       </section>

@@ -46,7 +46,7 @@ export default function ShowreelPlayer({ id = "showreel" }: { id?: string }) {
   return (
     <div ref={wrap} id={id} className="relative overflow-hidden rounded-xl bg-surface aspect-video scroll-mt-28">
       {!full ? (
-        <button type="button" onClick={start} data-cursor="play" className="group absolute inset-0" aria-label="Play showreel">
+        <button type="button" onClick={start} data-cursor="play" className="group absolute inset-0">
           <Image src={showreel.poster} alt="" fill sizes="100vw" className="object-cover" />
           <VideoPlayer src={showreel.previewSrc} mode="preview" active={inView} className="absolute inset-0 h-full w-full" />
           <span className="absolute left-5 bottom-5 md:left-8 md:bottom-8 flex items-center gap-3 rounded-full bg-ink/70 backdrop-blur px-4 py-2.5 t-mono text-text transition-colors duration-500 group-hover:bg-signal group-hover:text-ink">
