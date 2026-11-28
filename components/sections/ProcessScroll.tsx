@@ -25,7 +25,7 @@ export default function ProcessScroll({ index }: { index: number }) {
     <section ref={ref} className="relative md:h-[260vh]">
       <div className="md:sticky md:top-0 md:h-[100svh] md:flex md:flex-col md:justify-center overflow-hidden section md:py-0">
         <div className="wrap">
-          <SectionHead index={index} label="Process" lines={["Footage in.", "Finished edits out."]} />
+          <SectionHead index={index} label="Process" lines={["Footage in.", "**Finished edits out.**"]} />
         </div>
         <div className="wrap mt-16 md:mt-20 w-full">
           {reduce ? (

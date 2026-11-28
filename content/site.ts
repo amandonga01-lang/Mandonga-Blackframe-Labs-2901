@@ -22,8 +22,10 @@ export const site = {
   /** Hero copy. */
   hero: {
     label: "VIDEO EDITING STUDIO",
+    /** Headline lines. Wrap words in **double stars** for Medium weight. */
+    lines: ["We edit videos", "**people actually finish**", "watching."],
     headline: "We edit videos people actually finish watching.",
-    sub: "For founders, SaaS teams, creators, podcasters and brands running Meta ads. First cuts in 24 to 48 hours, finished by senior editors.",
+    sub: "For **founders, SaaS teams, creators, podcasters** and brands running **Meta ads**. First cuts in **24 to 48 hours**, finished by senior editors.",
   },
 
   socials: [

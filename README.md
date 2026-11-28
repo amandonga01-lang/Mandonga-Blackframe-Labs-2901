@@ -46,4 +46,12 @@ Copy `.env.example` to `.env.local` for local dev, and add the same names in Ver
 
 ## Structure
 
-`app/` routes · `components/` (layout, type, ui, video, hero, sections, work, services, case, contact) · `content/` data · `lib/` helpers · `styles/globals.css` design tokens.
+`app/` routes · `components/` (layout, type, ui, video, hero, particles, sections, work, services, case, contact) · `content/` data · `lib/` helpers · `styles/globals.css` design tokens.
+
+## Home-page particle cloud
+
+Each home-page section is wrapped in `<div data-shape="…" data-side="…">` in `app/page.tsx`. Shapes: `play`, `phone`, `timeline`, `mic`, `wave`, `globe`, `scatter` (defined in `lib/shapes.ts`). Sides: `left`, `mid`, `center`, `right`. Desktop only; off for reduced motion.
+
+## Typography
+
+Headlines are Light; wrap words in `**double stars**` to set them in Medium, e.g. `"We edit videos", "**people actually finish**", "watching."`.

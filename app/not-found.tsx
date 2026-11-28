@@ -6,7 +6,7 @@ export default function NotFound() {
     <section className="relative isolate overflow-hidden min-h-[90svh] flex items-end">
       <div className="wrap w-full pb-24 pt-40">
         <TimecodeLabel index={4}>Frame not found</TimecodeLabel>
-        <h1 className="t-hero mt-6 max-w-[12ch]">This frame was cut.</h1>
+        <h1 className="t-hero mt-6">This frame was <strong>cut.</strong></h1>
         <p className="t-body mt-8">The page you're looking for isn't in the edit anymore.</p>
         <div className="mt-10 flex flex-wrap gap-6 t-mono">
           <Link href="/" className="text-text hover:text-signal">Home →</Link>

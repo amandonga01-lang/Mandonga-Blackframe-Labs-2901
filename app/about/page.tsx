@@ -21,13 +21,13 @@ export default function AboutPage() {
     <>
       <PageHead
         label="About"
-        lines={["Four editors.", "No middlemen."]}
+        lines={["Four editors.", "**No middlemen.**"]}
         intro={`BlackFrameLabs is a small studio in ${site.location}. We cut podcasts, talking heads, SaaS films and Meta ads for founders, creators and brands in the US, UK and beyond.`}
       />
       <section className="wrap pb-[var(--section-y)]">
         <div className="grid-12 gap-y-10">
           <Reveal className="col-span-12 md:col-span-6">
-            <p className="font-display font-light text-[clamp(26px,2.6vw,40px)] leading-[1.2] tracking-[-0.02em]">
+            <p className="font-display font-light text-[clamp(20px,1.8vw,28px)] leading-[1.3] tracking-[-0.02em]">
               The name comes from the edit bay. A black frame is the empty frame between two shots: the exact place a cut happens. That decision is the job.
             </p>
           </Reveal>
@@ -39,7 +39,7 @@ export default function AboutPage() {
         </div>
       </section>
       <section className="wrap section pt-0">
-        <SectionHead index={1} label="Team" lines={["The people", "cutting your videos."]} size="t-h2" />
+        <SectionHead index={1} label="Team" lines={["The people", "**cutting your videos.**"]} size="t-h2" />
         <ul className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-x-[var(--gutter)] gap-y-12">
           {site.team.map((p, i) => (
             <li key={p.name}>
@@ -61,7 +61,7 @@ export default function AboutPage() {
         </ul>
       </section>
       <section className="wrap section pt-0">
-        <SectionHead index={2} label="House rules" lines={["How we work."]} size="t-h2" />
+        <SectionHead index={2} label="House rules" lines={["How we **work.**"]} size="t-h2" />
         <ol className="mt-16 grid gap-[var(--gutter)] md:grid-cols-2">
           {RULES.map((r, i) => (
             <li key={r.t}>

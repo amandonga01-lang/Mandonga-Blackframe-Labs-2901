@@ -27,7 +27,7 @@ export default function Testimonials({ index }: { index: number }) {
           <div className="mt-16 grid gap-16 md:grid-cols-2">
             {textTestimonials.map((t) => (
               <figure key={t.name}>
-                <blockquote className="font-display font-light text-[clamp(26px,2.6vw,40px)] leading-[1.15] tracking-[-0.02em]">“{t.quote}”</blockquote>
+                <blockquote className="font-display font-light text-[clamp(20px,1.8vw,28px)] leading-[1.15] tracking-[-0.02em]">“{t.quote}”</blockquote>
                 <figcaption className="mt-6 flex items-center gap-4">
                   {t.photo && <Image src={t.photo} alt="" width={48} height={48} className="h-12 w-12 rounded-full object-cover" />}
                   <span><span className="block">{t.name}</span><span className="t-mono text-ink/60">{t.role}, {t.company}</span></span>

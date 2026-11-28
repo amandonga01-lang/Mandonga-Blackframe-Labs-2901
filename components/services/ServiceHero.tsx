@@ -16,7 +16,7 @@ export default function ServiceHero({ s }: { s: Service }) {
         <div className={vertical ? "col-span-12 md:col-span-7" : "col-span-12 md:col-span-6"}>
           <TimecodeLabel index={0}>{`Service ${s.number}`}</TimecodeLabel>
           <RevealLines as="h1" immediate className="t-h1 mt-6" lines={[s.title]} />
-          <p className="mt-6 font-display font-light text-[clamp(24px,2.4vw,36px)] leading-[1.15] tracking-[-0.02em] text-text-2 max-w-[22ch]">{s.promise}</p>
+          <p className="mt-6 font-display font-light text-[clamp(19px,1.6vw,26px)] leading-[1.25] tracking-[-0.02em] text-text-2 max-w-[22ch]">{s.promise}</p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Button href={bookingUrl()} event="book_call_click" size="lg">Book a call</Button>
             <Button href="#work" variant="outline" size="lg">See the work</Button>

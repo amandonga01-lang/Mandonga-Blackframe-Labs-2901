@@ -18,7 +18,7 @@ export default function Accordion({ items }: { items: { q: string; a: string }[]
                 aria-expanded={isOpen}
                 aria-controls={`${id}-${i}`}
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="flex w-full items-baseline justify-between gap-6 py-6 text-left text-[clamp(19px,1.6vw,24px)]"
+                className="flex w-full items-baseline justify-between gap-6 py-6 text-left text-[clamp(16px,1.2vw,19px)]"
               >
                 {it.q}
                 <span aria-hidden="true" className={`t-mono text-text-3 transition-transform duration-700 ease-studio ${isOpen ? "rotate-45 text-signal" : ""}`}>+</span>

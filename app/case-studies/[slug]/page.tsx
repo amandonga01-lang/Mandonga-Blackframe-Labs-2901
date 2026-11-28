@@ -74,22 +74,22 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
 
       {c.beforeSrc && c.afterSrc && (
         <section className="wrap section pt-0">
-          <SectionHead index={next()} label="Before / after" lines={["Raw footage,", "then the edit."]} size="t-h2" />
+          <SectionHead index={next()} label="Before / after" lines={["Raw footage,", "**then the edit.**"]} size="t-h2" />
           <div className="mt-12"><BeforeAfterSlider before={c.beforeSrc} after={c.afterSrc} poster={hero?.poster} /></div>
         </section>
       )}
 
       <section className="wrap section pt-0">
-        <SectionHead index={next()} label="Deliverables" lines={["What we delivered."]} size="t-h2" />
+        <SectionHead index={next()} label="Deliverables" lines={["What we **delivered.**"]} size="t-h2" />
         <CaseGallery slugs={c.deliverables} />
       </section>
 
       {c.results.length > 0 && (
         <section className="wrap section pt-0">
-          <SectionHead index={next()} label="Results" lines={["What happened."]} size="t-h2" />
+          <SectionHead index={next()} label="Results" lines={["What **happened.**"]} size="t-h2" />
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-10">
             {c.results.map((r) => (
-              <div key={r.label}><p className="font-display font-light text-[clamp(56px,6vw,104px)] leading-none tracking-[-0.04em]">{r.value}</p><p className="t-mono text-text-3 mt-3">{r.label}</p></div>
+              <div key={r.label}><p className="font-display font-light text-[clamp(40px,4vw,64px)] leading-none tracking-[-0.03em]">{r.value}</p><p className="t-mono text-text-3 mt-3">{r.label}</p></div>
             ))}
           </div>
         </section>
@@ -98,7 +98,7 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
       {c.quote && (
         <section className="bg-paper text-ink">
           <figure className="wrap section">
-            <blockquote className="font-display font-light text-[clamp(30px,3.4vw,56px)] leading-[1.1] tracking-[-0.02em] max-w-[24ch]">“{c.quote.text}”</blockquote>
+            <blockquote className="font-display font-light text-[clamp(22px,2vw,32px)] leading-[1.25] tracking-[-0.02em] max-w-[24ch]">“{c.quote.text}”</blockquote>
             <figcaption className="t-mono text-ink/60 mt-8">{c.quote.name}, {c.quote.role}</figcaption>
           </figure>
         </section>

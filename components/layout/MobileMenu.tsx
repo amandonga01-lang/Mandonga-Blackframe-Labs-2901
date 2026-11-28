@@ -57,7 +57,7 @@ export default function MobileMenu({ onClose }: { onClose: () => void }) {
             >
               <Link href={l.href} onClick={onClose} className="flex items-baseline gap-4 py-3">
                 <span className="t-mono text-text-3 w-6">{String(i + 1).padStart(2, "0")}</span>
-                <span className="font-display font-light text-[44px] leading-none tracking-[-0.03em]">{l.label}</span>
+                <span className="font-display font-light text-[34px] leading-none tracking-[-0.025em]">{l.label}</span>
               </Link>
             </motion.li>
           ))}

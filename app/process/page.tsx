@@ -19,7 +19,7 @@ const DETAIL: Record<string, { you: string; we: string }> = {
 export default function ProcessPage() {
   return (
     <>
-      <PageHead label="Process" lines={["Five steps.", "No surprises."]} intro="The same process for a single launch film or a weekly retainer. You always know what's next and when." />
+      <PageHead label="Process" lines={["Five steps.", "**No surprises.**"]} intro="The same process for a single launch film or a weekly retainer. You always know what's next and when." />
       <section className="wrap pb-[var(--section-y)]">
         <ol className="border-t border-muted/70">
           {process.map((p, i) => (

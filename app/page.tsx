@@ -14,6 +14,7 @@ import FinalCta from "@/components/sections/FinalCta";
 import { faq } from "@/content/faq";
 import { portfolio } from "@/content/portfolio";
 import { JsonLd, videoLd } from "@/lib/seo";
+import ParticleField from "@/components/particles/ParticleField";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
@@ -23,18 +24,19 @@ export default function Home() {
   const next = () => ++n;
   return (
     <>
-      <Hero />
-      <Showreel index={next()} />
-      <ClientMarquee />
-      <SelectedWork index={next()} />
-      <ServicesList index={next()} />
-      {hasResults() && <Results index={next()} />}
-      {featuredCase() && <CaseHighlight index={next()} />}
-      <ProcessScroll index={next()} />
+      {/* data-shape tells the particle cloud what to become while this section is mid-screen. */}
+      <ParticleField />
+      <div data-shape="play" data-side="right"><Hero /></div>
+      <div data-shape="scatter"><Showreel index={next()} /><ClientMarquee /></div>
+      <div data-shape="phone" data-side="left"><SelectedWork index={next()} /></div>
+      <div data-shape="mic" data-side="mid"><ServicesList index={next()} /></div>
+      {hasResults() && <div data-shape="scatter"><Results index={next()} /></div>}
+      {featuredCase() && <div data-shape="scatter"><CaseHighlight index={next()} /></div>}
+      <div data-shape="timeline" data-side="right"><ProcessScroll index={next()} /></div>
       {hasTestimonials() && <Testimonials index={next()} />}
-      <AiHuman index={next()} />
-      <Faq index={next()} items={faq} />
-      <FinalCta index={next()} />
+      <div data-shape="wave" data-side="left"><AiHuman index={next()} /></div>
+      <div data-shape="scatter"><Faq index={next()} items={faq} /></div>
+      <div data-shape="globe" data-side="right"><FinalCta index={next()} /></div>
       <JsonLd data={videoLd(portfolio.filter((p) => p.featured))} />
     </>
   );

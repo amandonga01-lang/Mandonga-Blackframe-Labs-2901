@@ -28,7 +28,7 @@ export default function Stat({ value, suffix, label }: { value: string; suffix?:
 
   return (
     <div ref={ref}>
-      <p className="font-display font-light text-[clamp(64px,8vw,128px)] leading-[0.9] tracking-[-0.04em] tabular-nums">
+      <p className="font-display font-light text-[clamp(40px,4vw,64px)] leading-none tracking-[-0.03em] tabular-nums">
         {n}
         <span className="text-text-3">{suffix}</span>
       </p>

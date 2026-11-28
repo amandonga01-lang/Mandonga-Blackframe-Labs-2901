@@ -13,7 +13,7 @@ export const metadata: Metadata = { title: "Pricing", description: "Monthly pack
 export default function PricingPage() {
   return (
     <>
-      <PageHead label="Pricing" lines={["Monthly packages."]} intro="Most clients work with us monthly. One-off projects are quoted separately." />
+      <PageHead label="Pricing" lines={["Monthly **packages.**"]} intro="Most clients work with us monthly. One-off projects are quoted separately." />
       <section className="wrap pb-[var(--section-y)]">
         <div className="grid gap-[var(--gutter)] md:grid-cols-3 items-stretch">
           {packages.map((p, i) => (
@@ -22,8 +22,8 @@ export default function PricingPage() {
                 {p.highlighted && <span className="t-mono absolute right-6 top-6 text-signal">Most chosen</span>}
                 <h2 className="t-h3">{p.name}</h2>
                 <p className="t-body mt-2 text-[16px]">{p.for}</p>
-                <p className="mt-10 font-display font-light text-[clamp(40px,4vw,64px)] leading-none tracking-[-0.03em]">
-                  {p.price ? <>from {p.price}<span className="text-[20px] text-text-3"> {p.per}</span></> : "Custom quote"}
+                <p className="mt-10 font-display font-light text-[clamp(30px,2.6vw,42px)] leading-none tracking-[-0.025em]">
+                  {p.price ? <>from {p.price}<span className="text-[15px] text-text-3"> {p.per}</span></> : "Custom quote"}
                 </p>
                 <ul className="mt-10 flex flex-col">
                   {p.includes.map((x) => <li key={x} className="border-t border-muted/70 py-3 text-[16px]">{x}</li>)}

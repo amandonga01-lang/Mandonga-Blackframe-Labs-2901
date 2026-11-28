@@ -1,7 +1,7 @@
 import SectionHead from "./SectionHead";
 import Accordion from "../ui/Accordion";
 
-export default function Faq({ index, items, title = ["Questions."] }: { index: number; items: { q: string; a: string }[]; title?: string[] }) {
+export default function Faq({ index, items, title = ["**Questions.**"] }: { index: number; items: { q: string; a: string }[]; title?: string[] }) {
   if (!items.length) return null;
   return (
     <section className="wrap section">

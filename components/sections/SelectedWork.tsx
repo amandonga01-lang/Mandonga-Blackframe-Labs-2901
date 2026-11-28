@@ -39,7 +39,7 @@ export default function SelectedWork({ index }: { index: number }) {
   return (
     <section className="wrap section">
       <div className="grid-12 items-end gap-y-8">
-        <SectionHead index={index} label="Selected work" lines={["Work that", "holds attention."]} className="col-span-12 md:col-span-8" />
+        <SectionHead index={index} label="Selected work" lines={["Work that", "**holds attention.**"]} className="col-span-12 md:col-span-8" />
         <Reveal className="col-span-12 md:col-span-4 md:justify-self-end">
           <Link href="/work" className="t-mono text-text-2 hover:text-text inline-flex items-center gap-2">
             All work <span aria-hidden="true">→</span>

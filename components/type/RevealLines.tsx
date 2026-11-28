@@ -2,6 +2,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { EASE } from "@/lib/motion";
 import type { ElementType } from "react";
+import Rich, { plain } from "./Rich";
 
 /**
  * Headline whose lines slide up from a mask, staggered. Pass `lines` explicitly so the break points are designed.
@@ -29,12 +30,12 @@ export default function RevealLines({
   };
   const trigger = immediate ? { animate: "show" } : { whileInView: "show", viewport: { once: true, margin: "0px 0px -10% 0px" } };
   return (
-    <Tag className={className} aria-label={lines.join(" ")}>
+    <Tag className={className} aria-label={plain(lines.join(" "))}>
       <motion.span className="block" variants={container} initial="hidden" {...trigger}>
         {lines.map((l, i) => (
           <span key={i} aria-hidden="true" className="block overflow-hidden pb-[0.06em] -mb-[0.06em]">
             <motion.span className="block" variants={line}>
-              {l}
+              <Rich text={l} />
             </motion.span>
           </span>
         ))}

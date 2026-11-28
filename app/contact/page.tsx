@@ -10,14 +10,14 @@ export const metadata: Metadata = { title: "Contact", description: "Book a call 
 export default function ContactPage() {
   return (
     <>
-      <PageHead label="Contact" lines={["Book a call."]} intro="Fifteen minutes to see if we're a fit. Or send a short brief below and we'll reply within 24 hours." />
+      <PageHead label="Contact" lines={["Book a **call.**"]} intro="Fifteen minutes to see if we're a fit. Or send a short brief below and we'll reply within 24 hours." />
       <section className="wrap pb-[var(--section-y)]">
         <CalEmbed />
       </section>
       <section className="wrap section pt-0">
         <div className="grid-12 gap-y-12">
           <div className="col-span-12 md:col-span-4">
-            <SectionHead index={1} label="Or write to us" lines={["Send a brief."]} size="t-h2" />
+            <SectionHead index={1} label="Or write to us" lines={["Send a **brief.**"]} size="t-h2" />
             <div className="mt-10 flex flex-col gap-3 t-mono text-text-2">
               <a href={`mailto:${site.email}`} className="hover:text-text">{site.email}</a>
               <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="hover:text-text">WhatsApp {site.whatsapp.display}</a>

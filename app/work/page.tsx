@@ -19,7 +19,7 @@ export default function WorkPage() {
       <section className="wrap pt-36 md:pt-44 pb-[var(--section-y)]">
         <TimecodeLabel index={1}>Work</TimecodeLabel>
         <div className="grid-12 mt-6 items-end gap-y-6">
-          <RevealLines as="h1" immediate className="t-h1 col-span-12 md:col-span-8" lines={["The work."]} />
+          <RevealLines as="h1" immediate className="t-h1 col-span-12 md:col-span-8" lines={["The **work.**"]} />
           <p className="t-body col-span-12 md:col-span-4 md:justify-self-end">
             {portfolio.length} pieces of real client work. Hover to preview, click to watch with sound.
           </p>
@@ -28,7 +28,7 @@ export default function WorkPage() {
           <WorkBrowser />
         </Suspense>
       </section>
-      <FinalCta index={2} lines={["Want one of these", "for your brand?"]} />
+      <FinalCta index={2} lines={["Want one of these", "**for your brand?**"]} />
       <JsonLd data={videoLd(portfolio)} />
     </>
   );

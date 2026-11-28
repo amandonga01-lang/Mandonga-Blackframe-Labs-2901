@@ -18,7 +18,7 @@ export default function ServicesPage() {
       <section className="wrap pt-36 md:pt-44">
         <TimecodeLabel index={0}>Services</TimecodeLabel>
         <div className="grid-12 mt-6 items-end gap-y-6">
-          <RevealLines as="h1" immediate className="t-h1 col-span-12 md:col-span-8" lines={["Six ways we", "can help."]} />
+          <RevealLines as="h1" immediate className="t-h1 col-span-12 md:col-span-8" lines={["Six ways we", "**can help.**"]} />
           <p className="t-body col-span-12 md:col-span-4">Each service has its own page with the work, what you get, turnaround and pricing.</p>
         </div>
       </section>

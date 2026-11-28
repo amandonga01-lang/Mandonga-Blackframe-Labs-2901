@@ -38,7 +38,7 @@ export default function ServicesList({ index }: { index: number }) {
 
   return (
     <section className="wrap section">
-      <SectionHead index={index} label="Services" lines={["What we edit."]} />
+      <SectionHead index={index} label="Services" lines={["What we **edit.**"]} />
       <ol className="mt-16 md:mt-24 border-t border-muted/70" onMouseLeave={() => setHover(null)}>
         {services.map((s, i) => {
           const open = hover === i || !fine;
@@ -47,7 +47,7 @@ export default function ServicesList({ index }: { index: number }) {
             <li key={s.slug} className="border-b border-muted/70" onMouseEnter={() => setHover(i)}>
               <Link href={`/services/${s.slug}`} className="group grid grid-cols-12 gap-x-[var(--gutter)] gap-y-3 py-8 md:py-10 items-baseline">
                 <span className="t-mono text-text-3 col-span-2 md:col-span-1">{s.number}</span>
-                <span className="col-span-10 md:col-span-6 font-display font-light text-[clamp(36px,4.6vw,72px)] leading-[1] tracking-[-0.03em] transition-[color,transform] duration-700 ease-studio group-hover:translate-x-2">
+                <span className="col-span-10 md:col-span-6 font-display font-light text-[clamp(26px,2.6vw,42px)] leading-[1.05] tracking-[-0.025em] text-text-2 group-hover:text-text transition-[color,transform] duration-700 ease-studio group-hover:translate-x-2">
                   {s.title}
                 </span>
                 <span className="hidden md:flex col-span-5 flex-wrap justify-end gap-2">
