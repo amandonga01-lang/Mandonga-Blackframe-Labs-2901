@@ -3,7 +3,7 @@
 export const site = {
   name: "BlackFrameLabs",
   legalName: "Blackframe Labs Pvt Ltd",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://blackframelabs.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.blackframelabs.com",
   description:
     "Video editing studio for founders, SaaS teams, creators, podcasters and brands running Meta ads. Podcasts, talking heads, SaaS films and UGC ads, finished by experienced editors.",
   email: "hello@blackframelab.com",
