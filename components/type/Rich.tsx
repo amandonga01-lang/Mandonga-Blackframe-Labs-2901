@@ -1,4 +1,4 @@
-/** Renders "**emphasis**" inside a string as <strong> (Medium weight, full white). */
+/** Renders "**emphasis**" inside a string as <strong> (Bold in headlines, Semibold in body, full white). */
 export default function Rich({ text }: { text: string }) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
   return (

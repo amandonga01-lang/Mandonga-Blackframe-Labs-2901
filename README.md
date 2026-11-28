@@ -54,4 +54,4 @@ Each home-page section is wrapped in `<div data-shape="…" data-side="…">` in
 
 ## Typography
 
-Headlines are Light; wrap words in `**double stars**` to set them in Medium, e.g. `"We edit videos", "**people actually finish**", "watching."`.
+Headlines are Light; wrap words in `**double stars**` to set them in Bold. The Adobe Fonts kit needs Neue Haas Grotesk Display 45 Light, 55 Roman, 75 Bold and Text 55 Roman, 65 Medium, 75 Bold, e.g. `"We edit videos", "**people actually finish**", "watching."`.
