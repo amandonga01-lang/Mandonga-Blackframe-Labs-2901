@@ -29,15 +29,16 @@ const isoDuration = (d?: string) => {
   return `PT${m}M${s}S`;
 };
 
+/** VideoObject requires a real uploadDate, so only items with a `published` date are emitted. */
 export const videoLd = (items: PortfolioItem[]) =>
-  items.map((v) => ({
+  items.filter((v) => v.published).map((v) => ({
     "@context": "https://schema.org",
     "@type": "VideoObject",
     name: v.client ? `${v.title} — ${v.client}` : v.title,
     description: v.description ?? `${v.title}, edited by ${site.name}.`,
     thumbnailUrl: abs(v.poster),
     contentUrl: v.fullSrc.startsWith("http") ? v.fullSrc : abs(v.fullSrc),
-    uploadDate: "2025-01-01",
+    uploadDate: v.published,
     duration: isoDuration(v.duration),
   }));
 

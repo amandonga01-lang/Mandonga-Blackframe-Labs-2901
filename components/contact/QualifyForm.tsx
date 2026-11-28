@@ -4,23 +4,64 @@ import { AnimatePresence, motion } from "framer-motion";
 import { submitContact, type ContactState } from "@/app/contact/actions";
 import { track } from "@/lib/analytics";
 import { EASE } from "@/lib/motion";
-import { site } from "@/content/site";
+import { site, whatsappLink } from "@/content/site";
+import { contactForm } from "@/content/copy";
 
-const SERVICES = ["Podcast", "Talking head", "Meta ads & UGC", "SaaS video", "Video editing", "AI editing", "Not sure yet"];
-const BUDGETS = ["Under $1k", "$1k–3k", "$3k–6k", "$6k+", "Not sure yet"];
+const SERVICES = contactForm.services;
+const BUDGETS = contactForm.budgets;
 
-export default function QualifyForm() {
+/** Turns the form into a plain-text brief (used for the email / WhatsApp hand-off). */
+function brief(fd: FormData) {
+  const g = (k: string) => String(fd.get(k) ?? "").trim();
+  const head = [
+    `Name: ${g("name")}`,
+    `Email: ${g("email")}`,
+    g("company") && `Company: ${g("company")}`,
+    g("website") && `Website: ${g("website")}`,
+    fd.getAll("services").length ? `Services: ${fd.getAll("services").join(", ")}` : "",
+    g("budget") && `Monthly budget: ${g("budget")}`,
+    g("source") && `Heard about us: ${g("source")}`,
+  ].filter(Boolean);
+  return [...head, "", g("details")].join("\n").trim();
+}
+
+/**
+ * Qualifying form. With Resend configured it sends server-side. Without it, the form still never loses a lead:
+ * submit opens the visitor's email app with the brief filled in, and offers WhatsApp with the same text.
+ */
+export default function QualifyForm({ configured }: { configured: boolean }) {
+  const [handoff, setHandoff] = useState<string | null>(null);
   const [state, action, pending] = useActionState<ContactState, FormData>(async (s, fd) => {
+    if (!configured) {
+      const name = String(fd.get("name") ?? "").trim();
+      const email = String(fd.get("email") ?? "").trim();
+      if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { status: "error", message: "Please add your name and a valid email." };
+      const text = brief(fd);
+      setHandoff(text);
+      track("form_submit", { via: "mailto" });
+      window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(`New enquiry: ${name}`)}&body=${encodeURIComponent(text)}`;
+      return { status: "idle" };
+    }
     const r = await submitContact(s, fd);
     if (r.status === "ok") track("form_submit");
     return r;
   }, { status: "idle" });
   const [budget, setBudget] = useState("");
-  const v = state.fields ?? {};
+  const v: Record<string, string> = state.fields ?? {};
 
   return (
     <AnimatePresence mode="wait">
-      {state.status === "ok" ? (
+      {handoff ? (
+        <motion.div key="handoff" role="status" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE }} className="py-12">
+          <motion.span className="block h-px bg-signal origin-left" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.4, ease: EASE }} />
+          <p className="t-h2 mt-10">Your brief is ready to send.</p>
+          <p className="t-body mt-4">Your email app should have opened with everything filled in. Press send and we&apos;ll reply within 24 hours. Prefer WhatsApp? Same brief, one tap:</p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href={whatsappLink(handoff)} target="_blank" rel="noopener noreferrer" className="inline-flex h-12 items-center rounded-full bg-signal px-6 font-medium text-ink hover:bg-white">Send on WhatsApp</a>
+            <a href={`mailto:${site.email}?body=${encodeURIComponent(handoff)}`} className="inline-flex h-12 items-center rounded-full border border-muted px-6 hover:border-text">Open email again</a>
+          </div>
+        </motion.div>
+      ) : state.status === "ok" ? (
         <motion.div key="ok" role="status" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE }} className="py-16">
           <motion.span className="block h-px bg-signal origin-left" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.4, ease: EASE }} />
           <p className="t-h2 mt-10">Got it.</p>
@@ -84,7 +125,7 @@ export default function QualifyForm() {
           )}
           <div className="sm:col-span-2">
             <button type="submit" disabled={pending} className="inline-flex h-14 items-center gap-3 rounded-full bg-signal px-8 text-[17px] font-medium text-ink transition-colors duration-500 hover:bg-white disabled:opacity-60">
-              {pending ? "Sending…" : "Send enquiry"} <span aria-hidden="true">→</span>
+              {pending ? "Sending…" : configured ? "Send enquiry" : "Send brief by email"} <span aria-hidden="true">→</span>
             </button>
           </div>
         </motion.form>

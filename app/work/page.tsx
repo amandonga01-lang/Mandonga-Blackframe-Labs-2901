@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import TimecodeLabel from "@/components/type/TimecodeLabel";
 import RevealLines from "@/components/type/RevealLines";
 import WorkBrowser from "@/components/work/WorkBrowser";
@@ -19,14 +18,12 @@ export default function WorkPage() {
       <section className="wrap pt-36 md:pt-44 pb-[var(--section-y)]">
         <TimecodeLabel index={1}>Work</TimecodeLabel>
         <div className="grid-12 mt-6 items-end gap-y-6">
-          <RevealLines as="h1" immediate className="t-h1 col-span-12 md:col-span-8" lines={["The **work.**"]} />
+          <RevealLines as="h1" immediate className="t-h1 col-span-12 md:col-span-8" lines={["The work."]} />
           <p className="t-body col-span-12 md:col-span-4 md:justify-self-end">
-            {portfolio.length} pieces of real client work. Hover to preview, click to watch with sound.
+            {portfolio.length} pieces of real client work. <span className="[@media(hover:none)]:hidden">Hover to preview, click</span><span className="[@media(hover:hover)]:hidden">Tap any piece</span> to watch with sound.
           </p>
         </div>
-        <Suspense fallback={<div className="h-screen" />}>
-          <WorkBrowser />
-        </Suspense>
+        <WorkBrowser />
       </section>
       <FinalCta index={2} lines={["Want one of these", "**for your brand?**"]} />
       <JsonLd data={videoLd(portfolio)} />

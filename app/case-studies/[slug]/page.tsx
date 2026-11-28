@@ -74,19 +74,19 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
 
       {c.beforeSrc && c.afterSrc && (
         <section className="wrap section pt-0">
-          <SectionHead index={next()} label="Before / after" lines={["Raw footage,", "**then the edit.**"]} size="t-h2" />
+          <SectionHead index={next()} label="Before / after" lines={["Raw footage, then the edit."]} size="t-h2" />
           <div className="mt-12"><BeforeAfterSlider before={c.beforeSrc} after={c.afterSrc} poster={hero?.poster} /></div>
         </section>
       )}
 
       <section className="wrap section pt-0">
-        <SectionHead index={next()} label="Deliverables" lines={["What we **delivered.**"]} size="t-h2" />
+        <SectionHead index={next()} label="Deliverables" lines={["What we delivered."]} size="t-h2" />
         <CaseGallery slugs={c.deliverables} />
       </section>
 
       {c.results.length > 0 && (
         <section className="wrap section pt-0">
-          <SectionHead index={next()} label="Results" lines={["What **happened.**"]} size="t-h2" />
+          <SectionHead index={next()} label="Results" lines={["What happened."]} size="t-h2" />
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-10">
             {c.results.map((r) => (
               <div key={r.label}><p className="font-display font-light text-[clamp(40px,4vw,64px)] leading-none tracking-[-0.03em]">{r.value}</p><p className="t-mono text-text-3 mt-3">{r.label}</p></div>

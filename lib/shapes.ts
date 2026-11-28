@@ -1,7 +1,7 @@
 // Point-cloud targets for the home-page particle field. Every shape returns exactly `n` points (x, y, z)
 // inside roughly a 3.4 × 2.4 box, so the cloud can morph between them. All shapes come from the edit bay.
 
-export type ShapeName = "play" | "phone" | "timeline" | "mic" | "wave" | "globe" | "scatter";
+export type ShapeName = "play" | "phone" | "timeline" | "mic" | "wave" | "globe" | "seed";
 
 type Rand = () => number;
 const mulberry = (seed: number): Rand => () => {
@@ -133,8 +133,8 @@ const generators: Record<ShapeName, (n: number) => Float32Array> = {
       [22, (r) => { const lat = [-0.6, 0, 0.6][Math.floor(r() * 3)], a = r() * Math.PI * 2, rr = 1.32 * Math.cos(lat); return [rr * Math.cos(a), 1.32 * Math.sin(lat), rr * Math.sin(a)]; }],
     ], 66),
 
-  // Dust between shapes, the way the reference dissolves.
-  scatter: (n) => fill(n, [[100, (r) => [jitter(r, 11), jitter(r, 6.5), jitter(r, 5)]]], 77),
+  // Starting state only: a small loose ball that gathers into the first shape (no starfield).
+  seed: (n) => fill(n, [[100, (r) => { const u = r() * 2 - 1, a = r() * Math.PI * 2, rr = 0.4 + r() * 1.2, s = Math.sqrt(1 - u * u); return [rr * s * Math.cos(a), rr * u, rr * s * Math.sin(a)]; }]], 77),
 };
 
 const cache = new Map<string, Float32Array>();

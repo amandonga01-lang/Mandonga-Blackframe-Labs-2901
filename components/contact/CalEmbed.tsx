@@ -6,8 +6,8 @@ export default function CalEmbed() {
   if (!link) {
     return (
       <div className="rounded-xl border border-muted p-8 md:p-12 flex flex-col gap-6">
-        <p className="t-mono text-text-3">Book a call</p>
-        <p className="t-h3">Online booking is coming. Until then, message us and we'll find a time.</p>
+        <p className="t-mono text-text-3">Talk to an editor</p>
+        <p className="t-h3">Message us directly and the person who&apos;ll edit your videos replies, usually the same day.</p>
         <div className="flex flex-wrap gap-3">
           <a href={`mailto:${site.email}?subject=Intro%20call`} className="t-mono rounded-full border border-muted px-5 py-3 hover:border-text">{site.email}</a>
           <a href={whatsappLink("Hi, I'd like to book an intro call.")} target="_blank" rel="noopener noreferrer" className="t-mono rounded-full border border-muted px-5 py-3 hover:border-text">WhatsApp {site.whatsapp.display}</a>

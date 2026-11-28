@@ -17,6 +17,19 @@ export default function ShowreelPlayer({ id = "showreel" }: { id?: string }) {
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(!showreel.hasSound);
   const [t, setT] = useState(0);
+  const [dur, setDur] = useState("");
+
+  // Read the real length from the file instead of hard-coding it.
+  useEffect(() => {
+    const v = document.createElement("video");
+    v.preload = "metadata";
+    v.src = showreel.fullSrc;
+    v.onloadedmetadata = () => {
+      const s = Math.round(v.duration);
+      if (Number.isFinite(s)) setDur(`${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`);
+      v.removeAttribute("src");
+    };
+  }, []);
 
   useEffect(() => {
     const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.3 });
@@ -50,7 +63,7 @@ export default function ShowreelPlayer({ id = "showreel" }: { id?: string }) {
           <Image src={showreel.poster} alt="" fill sizes="100vw" className="object-cover" />
           <VideoPlayer src={showreel.previewSrc} mode="preview" active={inView} className="absolute inset-0 h-full w-full" />
           <span className="absolute left-5 bottom-5 md:left-8 md:bottom-8 flex items-center gap-3 rounded-full bg-ink/70 backdrop-blur px-4 py-2.5 t-mono text-text transition-colors duration-500 group-hover:bg-signal group-hover:text-ink">
-            ▶ Play showreel · 00:36
+            ▶ Play showreel{dur ? ` · ${dur}` : ""}
           </span>
         </button>
       ) : (
@@ -123,19 +136,21 @@ function Controls({
         aria-label="Seek"
         className="flex-1 accent-[var(--signal)] h-1"
       />
-      <button
-        type="button"
-        onClick={() => {
-          const el = getEl();
-          if (!el) return;
-          el.muted = !el.muted;
-          setMuted(el.muted);
-        }}
-        className="t-mono px-2 h-9 rounded-full hover:bg-surface-2"
-        aria-label={muted ? "Unmute" : "Mute"}
-      >
-        {muted ? "Sound off" : "Sound on"}
-      </button>
+      {showreel.hasSound && (
+        <button
+          type="button"
+          onClick={() => {
+            const el = getEl();
+            if (!el) return;
+            el.muted = !el.muted;
+            setMuted(el.muted);
+          }}
+          className="t-mono px-2 h-9 rounded-full hover:bg-surface-2"
+          aria-label={muted ? "Unmute" : "Mute"}
+        >
+          {muted ? "Sound off" : "Sound on"}
+        </button>
+      )}
       <button type="button" onClick={() => wrap.current?.requestFullscreen?.()} className="t-mono px-2 h-9 rounded-full hover:bg-surface-2" aria-label="Full screen">
         ⤢
       </button>

@@ -1,4 +1,6 @@
-// Prices. Leave `price` empty to show "Custom quote".
+// Prices. The package grid only appears once at least one `price` is filled in.
+// Until then /pricing explains how pricing works (content/copy.ts → pricingModels).
+// The inclusions below are a DRAFT: confirm them before adding prices.
 
 export type Package = {
   name: string;
@@ -8,7 +10,6 @@ export type Package = {
   includes: string[];
   turnaround: string;
   revisions: string;
-  highlighted?: boolean;
 };
 
 export const packages: Package[] = [
@@ -29,7 +30,6 @@ export const packages: Package[] = [
     includes: ["1 full podcast episode a week", "Clips cut from every episode", "Meta ad batch with hook variations", "Thumbnails"],
     turnaround: "Clips in 24–48 h",
     revisions: "3 rounds per video",
-    highlighted: true,
   },
   {
     name: "Partner",

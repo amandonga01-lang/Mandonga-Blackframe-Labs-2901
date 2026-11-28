@@ -8,14 +8,6 @@ import { faq } from "@/content/faq";
 
 export const metadata: Metadata = { title: "Process", description: "Discovery call, strategy and script, edit, review and revisions, delivery and iteration.", alternates: { canonical: "/process" } };
 
-const DETAIL: Record<string, { you: string; we: string }> = {
-  "Discovery call": { you: "Goals, audience, examples you like, what's worked before.", we: "Recommend formats, volume and a realistic schedule." },
-  "Strategy & script": { you: "Footage, scripts or talking points, brand assets.", we: "Hooks, structure and a shot list if you're still recording." },
-  Edit: { you: "Nothing. This part is ours.", we: "Cut, pacing, captions, sound, colour, motion. First cut in 24–48 h for short-form." },
-  "Review & revisions": { you: "Notes on the video, or a voice note.", we: "Revise the same day where we can. Same editor every round." },
-  "Delivery & iteration": { you: "Post, run, publish. Tell us what performed.", we: "Exports for every platform, then adjust the next batch to what worked." },
-};
-
 export default function ProcessPage() {
   return (
     <>
@@ -33,8 +25,8 @@ export default function ProcessPage() {
                 <div className="col-span-12 md:col-start-8 md:col-span-5 flex flex-col gap-6">
                   <p className="t-body">{p.body}</p>
                   <dl className="grid grid-cols-2 gap-[var(--gutter)] text-[16px]">
-                    <div><dt className="t-mono text-text-3">You</dt><dd className="mt-2 text-text-2">{DETAIL[p.title]?.you}</dd></div>
-                    <div><dt className="t-mono text-text-3">We</dt><dd className="mt-2">{DETAIL[p.title]?.we}</dd></div>
+                    <div><dt className="t-mono text-text-3">You</dt><dd className="mt-2 text-text-2">{p.you}</dd></div>
+                    <div><dt className="t-mono text-text-3">We</dt><dd className="mt-2">{p.we}</dd></div>
                   </dl>
                 </div>
               </Reveal>

@@ -40,7 +40,7 @@ export default function Nav() {
       >
         <nav
           aria-label="Main"
-          className="mx-auto flex h-14 max-w-[1440px] items-center gap-4 rounded-full border border-muted bg-surface/85 pl-5 pr-2 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,.35)]"
+          className="mx-auto flex h-14 max-w-[1440px] items-center gap-2 sm:gap-4 rounded-full border border-muted bg-surface/85 pl-4 sm:pl-5 pr-2 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,.35)]"
         >
           <Logo />
           {site.availability && (
@@ -66,19 +66,18 @@ export default function Nav() {
             })}
           </ul>
           <div className="ml-auto lg:ml-0 flex items-center gap-2">
-            <span className="hidden sm:block">
-              <Button href={bookingUrl()} event="book_call_click">
-                Book a call
-              </Button>
-            </span>
+            <Button href={bookingUrl()} event="book_call_click" className="max-sm:h-10 max-sm:px-3.5 max-sm:gap-2 max-sm:text-[14px]">
+              <span className="sm:hidden">Book</span>
+              <span className="max-sm:hidden">Book a call</span>
+            </Button>
             <button
               type="button"
-              onClick={() => setOpen((o) => !o)}
+              onClick={() => setOpen(true)}
               aria-expanded={open}
               aria-controls="mobile-menu"
-              className="lg:hidden h-11 rounded-full border border-muted px-4 t-mono"
+              className="lg:hidden h-10 sm:h-11 rounded-full border border-muted px-3.5 sm:px-4 t-mono"
             >
-              {open ? "Close" : "Menu"}
+              Menu
             </button>
           </div>
         </nav>

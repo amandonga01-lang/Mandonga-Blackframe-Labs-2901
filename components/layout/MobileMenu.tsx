@@ -43,8 +43,12 @@ export default function MobileMenu({ onClose }: { onClose: () => void }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5, ease: EASE }}
-      className="fixed inset-0 z-40 bg-ink px-5 md:px-12 pt-24 pb-8 flex flex-col lg:hidden"
+      className="fixed inset-0 z-[60] bg-ink px-5 md:px-12 pt-5 pb-8 flex flex-col overflow-y-auto lg:hidden"
     >
+      <div className="flex items-center justify-between mb-10">
+        <span className="t-mono text-text-3">Menu</span>
+        <button type="button" onClick={onClose} className="h-11 rounded-full border border-muted px-4 t-mono">Close</button>
+      </div>
       <nav aria-label="Mobile">
         <ol>
           {links.map((l, i) => (

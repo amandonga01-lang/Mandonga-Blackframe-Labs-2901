@@ -4,6 +4,7 @@ import { NAV } from "./nav-links";
 import { services } from "@/content/services";
 import { site, whatsappLink } from "@/content/site";
 import LocalTime from "./LocalTime";
+import { publishedCaseStudies } from "@/content/case-studies";
 
 export default function Footer() {
   return (
@@ -12,7 +13,7 @@ export default function Footer() {
         <div className="col-span-12 md:col-span-4 flex flex-col gap-5">
           <Logo />
           <p className="t-body text-[16px] max-w-[34ch]">
-            A four-person editing studio in {site.location}. Podcasts, talking heads, SaaS films and Meta ads, finished by senior editors.
+            {site.blurb}
           </p>
           <p className="t-mono text-text-3">
             <LocalTime /> · {site.timezoneLabel}
@@ -22,7 +23,7 @@ export default function Footer() {
           {NAV.map((l) => (
             <Link key={l.href} href={l.href}>{l.label}</Link>
           ))}
-          <Link href="/case-studies">Case studies</Link>
+          {publishedCaseStudies().length > 0 && <Link href="/case-studies">Case studies</Link>}
           <Link href="/contact">Contact</Link>
         </FooterCol>
         <FooterCol title="Services" className="col-span-6 md:col-span-3">
@@ -45,7 +46,7 @@ export default function Footer() {
           <Link href="/privacy" className="hover:text-text">Privacy</Link>
           <Link href="/terms" className="hover:text-text">Terms</Link>
         </span>
-        <span>00:00:00:00 — End of reel</span>
+        <span className="flex items-center gap-2"><span aria-hidden="true" className="h-2 w-2 rounded-[2px] bg-muted" />End of reel</span>
       </div>
     </footer>
   );

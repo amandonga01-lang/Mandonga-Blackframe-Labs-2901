@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import TimecodeLabel from "@/components/type/TimecodeLabel";
 import RevealLines from "@/components/type/RevealLines";
 import SectionHead from "@/components/sections/SectionHead";
@@ -18,7 +17,7 @@ export default function MorePage() {
     <>
       <section className="wrap pt-36 md:pt-44 pb-[var(--section-y)]">
         <TimecodeLabel index={0}>Also available</TimecodeLabel>
-        <RevealLines as="h1" immediate className="t-h1 mt-6" lines={["More **services.**"]} />
+        <RevealLines as="h1" immediate className="t-h1 mt-6" lines={["More services."]} />
         <ol className="mt-16 border-t border-muted/70 md:columns-2 md:gap-[var(--gutter)]">
           {moreServices.map((m, i) => (
             <li key={m} className="flex gap-6 border-b border-muted/70 py-5 text-[clamp(16px,1.15vw,19px)] break-inside-avoid">
@@ -29,10 +28,8 @@ export default function MorePage() {
         </ol>
       </section>
       <section className="wrap section pt-0">
-        <SectionHead index={1} label="Examples" lines={["Brand, motion and", "**property films.**"]} size="t-h2" />
-        <Suspense fallback={null}>
-          <WorkBrowser only="more" />
-        </Suspense>
+        <SectionHead index={1} label="Examples" lines={["Brand, motion and property films."]} size="t-h2" />
+        <WorkBrowser only="more" />
       </section>
       <FinalCta index={2} />
     </>

@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SectionHead from "./SectionHead";
@@ -9,65 +8,73 @@ import { services } from "@/content/services";
 import { bySlug } from "@/content/portfolio";
 import { EASE } from "@/lib/motion";
 
-/** Numbered service rows. Desktop: a small rounded preview follows the cursor and the row's summary opens. */
-export default function ServicesList({ index }: { index: number }) {
+/**
+ * Numbered service rows. Rows never change height: on hover (desktop) the tags cross-fade into a one-line summary,
+ * and a small preview follows the cursor. The follow loop only runs while a row is hovered.
+ */
+export default function ServicesList({ index, head = true }: { index: number; head?: boolean }) {
   const [hover, setHover] = useState<number | null>(null);
   const [fine, setFine] = useState(false);
   const follower = useRef<HTMLDivElement>(null);
+  const target = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     setFine(window.matchMedia("(pointer: fine)").matches && !window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
 
   useEffect(() => {
-    if (!fine) return;
-    let x = 0, y = 0, cx = 0, cy = 0, raf = 0;
-    const move = (e: PointerEvent) => { x = e.clientX; y = e.clientY; };
+    if (!fine || hover === null) return;
+    let cx = target.current.x, cy = target.current.y, raf = 0;
+    const move = (e: PointerEvent) => (target.current = { x: e.clientX, y: e.clientY });
     const loop = () => {
-      cx += (x - cx) * 0.14;
-      cy += (y - cy) * 0.14;
+      cx += (target.current.x - cx) * 0.14;
+      cy += (target.current.y - cy) * 0.14;
       if (follower.current) follower.current.style.transform = `translate3d(${cx + 28}px, ${cy - 90}px, 0)`;
       raf = requestAnimationFrame(loop);
     };
     window.addEventListener("pointermove", move, { passive: true });
     raf = requestAnimationFrame(loop);
-    return () => { window.removeEventListener("pointermove", move); cancelAnimationFrame(raf); };
-  }, [fine]);
+    return () => {
+      window.removeEventListener("pointermove", move);
+      cancelAnimationFrame(raf);
+    };
+  }, [fine, hover]);
 
   const sample = hover !== null ? bySlug(services[hover].sample) : null;
 
   return (
     <section className="wrap section">
-      <SectionHead index={index} label="Services" lines={["What we **edit.**"]} />
-      <ol className="mt-16 md:mt-24 border-t border-muted/70" onMouseLeave={() => setHover(null)}>
+      {head && <SectionHead index={index} label="Services" lines={["What we edit."]} />}
+      <ol className={`${head ? "mt-14 md:mt-20" : ""} border-t border-muted/70`} onMouseLeave={() => setHover(null)}>
         {services.map((s, i) => {
-          const open = hover === i || !fine;
-          const thumb = bySlug(s.sample);
+          const on = hover === i;
           return (
-            <li key={s.slug} className="border-b border-muted/70" onMouseEnter={() => setHover(i)}>
-              <Link href={`/services/${s.slug}`} className="group grid grid-cols-12 gap-x-[var(--gutter)] gap-y-3 py-8 md:py-10 items-baseline">
-                <span className="t-mono text-text-3 col-span-2 md:col-span-1">{s.number}</span>
-                <span className="col-span-10 md:col-span-6 font-display font-light text-[clamp(26px,2.6vw,42px)] leading-[1.05] tracking-[-0.025em] text-text-2 group-hover:text-text transition-[color,transform] duration-700 ease-studio group-hover:translate-x-2">
+            <li
+              key={s.slug}
+              className="border-b border-muted/70"
+              onMouseEnter={(e) => {
+                target.current = { x: e.clientX, y: e.clientY };
+                setHover(i);
+              }}
+            >
+              <Link href={`/services/${s.slug}`} className="group grid grid-cols-12 items-center gap-x-[var(--gutter)] gap-y-2 py-6 md:py-8">
+                <span className="t-mono col-span-2 md:col-span-1 text-text-3">{s.number}</span>
+                <span className={`col-span-10 md:col-span-5 font-display font-light text-[clamp(24px,2.4vw,38px)] leading-[1.1] tracking-[-0.02em] transition-[color,transform] duration-700 ease-studio ${on ? "translate-x-2 text-text" : "text-text-2"}`}>
                   {s.title}
                 </span>
-                <span className="hidden md:flex col-span-5 flex-wrap justify-end gap-2">
-                  {s.tags.map((t) => (
-                    <span key={t} className="t-mono rounded-full border border-muted px-3 py-1.5 text-text-2">{t}</span>
-                  ))}
-                </span>
-                <motion.span
-                  initial={false}
-                  animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
-                  transition={{ duration: 0.7, ease: EASE }}
-                  className="col-span-12 md:col-start-2 md:col-span-6 overflow-hidden"
-                >
-                  <span className="flex items-start gap-4 pt-2">
-                    {!fine && thumb && (
-                      <Image src={thumb.poster} alt="" width={64} height={64} className={`shrink-0 rounded-sm object-cover ${thumb.format === "vertical" ? "h-20 w-12" : "h-12 w-20"}`} />
-                    )}
-                    <span className="t-body text-[17px]">{s.summary}</span>
+                {/* Tags and summary share one cell, so hovering never re-flows the list. */}
+                <span className="relative col-span-12 col-start-3 md:col-span-6 md:col-start-7 grid">
+                  <span className={`[grid-area:1/1] flex flex-wrap gap-2 md:justify-end transition-opacity duration-500 ${on && fine ? "opacity-0" : "opacity-100"}`}>
+                    {s.tags.map((t) => (
+                      <span key={t} className="t-mono rounded-full border border-muted px-3 py-1.5 text-text-2">{t}</span>
+                    ))}
                   </span>
-                </motion.span>
+                  {fine && (
+                    <span className={`[grid-area:1/1] self-center text-[15px] leading-snug text-text-2 md:text-right transition-opacity duration-500 ${on ? "opacity-100" : "opacity-0"}`}>
+                      {s.promise}
+                    </span>
+                  )}
+                </span>
               </Link>
             </li>
           );

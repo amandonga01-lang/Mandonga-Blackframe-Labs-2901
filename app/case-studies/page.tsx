@@ -15,7 +15,7 @@ export default function CaseStudiesPage() {
   const list = caseStudies.filter((c) => c.published || showDrafts);
   return (
     <>
-      <PageHead label="Case studies" lines={["Case **studies.**"]} intro="The brief, what we did, and what happened. Real projects only." />
+      <PageHead label="Case studies" lines={["Case studies."]} intro="The brief, what we did, and what happened. Real projects only." />
       <section className="wrap pb-[var(--section-y)]">
         {list.length === 0 ? (
           <div className="rounded-xl border border-muted p-10 md:p-14">

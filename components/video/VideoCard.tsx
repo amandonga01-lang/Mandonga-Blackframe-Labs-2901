@@ -52,7 +52,7 @@ export default function VideoCard({ item, onOpen, sizes = "(max-width: 768px) 50
       <span className="mt-4 flex items-start justify-between gap-4">
         <span>
           <span className="block text-[17px] leading-snug"><span className="sr-only">Play </span>{item.title}</span>
-          {item.client && <span className="t-mono mt-1 block text-text-3">{item.client}</span>}
+          <span className="t-mono mt-1.5 block text-text-3">{[item.client, metaLine(item)].filter(Boolean).join(" · ")}</span>
         </span>
         {showResult && result && (
           <span className="text-right shrink-0">

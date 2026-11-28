@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
+import Link from "next/link";
 import ServiceHero from "@/components/services/ServiceHero";
 import SectionHead from "@/components/sections/SectionHead";
 import Faq from "@/components/sections/Faq";
@@ -35,7 +35,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
       <section className="wrap section pt-0">
         <div className="grid-12 gap-y-12">
-          <SectionHead index={next()} label="What you get" lines={["What you **get.**"]} size="t-h2" className="col-span-12 md:col-span-4" />
+          <SectionHead index={next()} label="What you get" lines={["What you get."]} size="t-h2" className="col-span-12 md:col-span-4" />
           <ol className="col-span-12 md:col-start-6 md:col-span-7 border-t border-muted/70">
             {s.whatYouGet.map((w, i) => (
               <li key={w} className="flex gap-6 border-b border-muted/70 py-5 text-[clamp(16px,1.15vw,19px)]">
@@ -62,16 +62,14 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
       {work.length > 0 && (
         <section id="work" className="wrap section pt-0 scroll-mt-28">
-          <SectionHead index={next()} label="The work" lines={[`**${s.title}** work.`]} size="t-h2" />
-          <Suspense fallback={null}>
-            <WorkBrowser only={s.slug} />
-          </Suspense>
+          <SectionHead index={next()} label="The work" lines={[`${s.title} work.`]} size="t-h2" />
+          <WorkBrowser only={s.slug} />
         </section>
       )}
 
       <section className="wrap section pt-0">
         <div className="grid-12 gap-y-12">
-          <SectionHead index={next()} label="Process" lines={["How it **runs.**"]} size="t-h2" className="col-span-12 md:col-span-4" />
+          <SectionHead index={next()} label="Process" lines={["How it runs."]} size="t-h2" className="col-span-12 md:col-span-4" />
           <ol className="col-span-12 md:col-start-6 md:col-span-7 grid gap-x-[var(--gutter)] gap-y-10 sm:grid-cols-2">
             {process.map((p, i) => (
               <li key={p.title} className="border-t border-muted pt-5">
@@ -97,8 +95,8 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           <Reveal delay={0.1} className="rounded-xl border border-muted bg-surface p-8 flex flex-col">
             <p className="t-mono text-text-3">Price</p>
             <p className="mt-6 font-display font-light text-[clamp(28px,2.4vw,38px)] leading-none tracking-[-0.025em]">{s.priceFrom || "Custom quote"}</p>
-            <p className="t-body mt-4 text-[16px]">{s.priceFrom ? "Final price depends on volume and length." : "Every job is quoted after a short call and a look at the footage."}</p>
-            <a href="/pricing" className="t-mono text-text-2 hover:text-text mt-auto pt-8">See packages →</a>
+            <p className="t-body mt-4 text-[16px]">{s.priceFrom ? "Final price depends on volume and length." : "Quoted after a 15-minute call and a look at the footage, before any work starts."}</p>
+            <Link href="/pricing" className="t-mono text-text-2 hover:text-text mt-auto pt-8">How pricing works →</Link>
           </Reveal>
         </div>
       </section>

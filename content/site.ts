@@ -5,7 +5,7 @@ export const site = {
   legalName: "Blackframe Labs Pvt Ltd",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://blackframelab.com",
   description:
-    "Video editing studio for founders, SaaS teams, creators, podcasters and brands running Meta ads. Podcasts, talking heads, SaaS films and UGC ads, finished by senior editors.",
+    "Video editing studio for founders, SaaS teams, creators, podcasters and brands running Meta ads. Podcasts, talking heads, SaaS films and UGC ads, finished by experienced editors.",
   email: "hello@blackframelab.com",
   jobsEmail: "join@blackframelab.com",
   whatsapp: { number: "919428614172", display: "+91 94286 14172" },
@@ -22,10 +22,10 @@ export const site = {
   /** Hero copy. */
   hero: {
     label: "VIDEO EDITING STUDIO",
-    /** Headline lines. Wrap words in **double stars** for Medium weight. */
+    /** Headline lines. Wrap words in **double stars** for Bold. */
     lines: ["We edit videos", "**people actually finish**", "watching."],
     headline: "We edit videos people actually finish watching.",
-    sub: "For **founders, SaaS teams, creators, podcasters** and brands running **Meta ads**. First cuts in **24 to 48 hours**, finished by senior editors.",
+    sub: "For **founders, SaaS teams, creators, podcasters** and brands running **Meta ads**. First cuts in **24 to 48 hours**, finished by experienced editors.",
   },
 
   socials: [
@@ -57,6 +57,9 @@ export const site = {
     { value: "24–48", suffix: "h", label: "To a first cut on most short-form" },
     { value: "", suffix: "%", label: "Clients still with us after 6 months" },
   ],
+
+  /** One line used in the footer and About intro. */
+  blurb: "A four-person studio in India. Podcasts, talking heads, SaaS films and Meta ads, edited by the people you talk to.",
 
   team: [
     { name: "Aman Donga", role: "Co-founder, CEO", photo: "" },

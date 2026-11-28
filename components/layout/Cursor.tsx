@@ -15,17 +15,18 @@ export default function Cursor() {
     const move = (e: PointerEvent) => {
       x = e.clientX;
       y = e.clientY;
+      if (!raf) raf = requestAnimationFrame(loop);
       const t = (e.target as HTMLElement | null)?.closest?.("[data-cursor]");
       setMode(t?.getAttribute("data-cursor") === "play" ? "play" : "dot");
     };
     const leave = () => setMode("hidden");
-    const loop = () => {
+    // Runs only while the dot is catching up to the pointer; idles otherwise.
+    function loop() {
       cx += (x - cx) * 0.22;
       cy += (y - cy) * 0.22;
       if (ref.current) ref.current.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
+      raf = Math.abs(x - cx) + Math.abs(y - cy) > 0.3 ? requestAnimationFrame(loop) : 0;
+    }
     window.addEventListener("pointermove", move, { passive: true });
     document.addEventListener("pointerleave", leave);
     return () => {

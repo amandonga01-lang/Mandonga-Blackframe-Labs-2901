@@ -1,6 +1,5 @@
 "use client";
-import { useMemo } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, LayoutGroup } from "framer-motion";
 import VideoCard from "../video/VideoCard";
 import Lightbox from "../video/Lightbox";
@@ -9,33 +8,42 @@ import { FILTERS, matches, toRows, type FilterId, type FormatId } from "./filter
 import { episodes, portfolio } from "@/content/portfolio";
 import { EASE } from "@/lib/motion";
 
-/** Filters (pill chips) + format toggle + aspect-aware grid + deep-linkable lightbox (/work?v=slug). */
+/**
+ * Filters (pill chips) + format toggle + aspect-aware grid + deep-linkable lightbox (/work?v=slug).
+ * The full grid is server-rendered (search engines and slow connections see every piece); URL state
+ * (?filter, ?format, ?v) is read in the browser and kept in sync with history.replaceState.
+ */
 export default function WorkBrowser({ only }: { only?: FilterId }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const params = useSearchParams();
+  const [params, setParams] = useState(() => new URLSearchParams());
+  useEffect(() => {
+    const read = () => setParams(new URLSearchParams(window.location.search));
+    read();
+    window.addEventListener("popstate", read);
+    return () => window.removeEventListener("popstate", read);
+  }, []);
   const filter = (only ?? (params.get("filter") as FilterId) ?? "all") as FilterId;
-  const format = (params.get("format") as FormatId) ?? "all";
+  const format = ((params.get("format") as FormatId) ?? "all") as FormatId;
   const v = params.get("v");
 
   const items = useMemo(() => portfolio.filter((p) => matches(p, FILTERS.some((f) => f.id === filter) ? filter : "all", format)), [filter, format]);
   const rows = useMemo(() => toRows(items), [items]);
   const openIndex = v ? items.findIndex((p) => p.slug === v) : -1;
 
-  const setParam = (k: string, val: string | null) => {
-    const q = new URLSearchParams(params.toString());
+  const setParam = useCallback((k: string, val: string | null) => {
+    const q = new URLSearchParams(window.location.search);
     if (val === null || val === "all") q.delete(k);
     else q.set(k, val);
     const s = q.toString();
-    router.replace(s ? `${pathname}?${s}` : pathname, { scroll: false });
-  };
+    window.history.replaceState(null, "", s ? `${window.location.pathname}?${s}` : window.location.pathname);
+    setParams(q);
+  }, []);
 
-  const showEpisodes = !only && (filter === "all" || filter === "podcast-editing" || filter === "long-form") && format !== "vertical" && episodes.length > 0;
+  const showEpisodes = (only ? only === "podcast-editing" : filter === "all" || filter === "podcast-editing" || filter === "long-form") && format !== "vertical" && episodes.length > 0;
 
   return (
     <>
       {!only && (
-        <div className="sticky top-[76px] md:top-24 z-30 mt-12 -mx-[var(--margin)] px-[var(--margin)] py-3 flex flex-col md:flex-row md:items-center gap-3 bg-ink/80 backdrop-blur-md md:bg-transparent md:backdrop-blur-none">
+        <div className="sticky top-[76px] md:top-24 z-30 mt-12 -mx-[var(--margin)] px-[var(--margin)] py-3 flex flex-col md:flex-row md:items-center gap-3 bg-ink/90 backdrop-blur-md border-b border-muted/50">
           <div role="toolbar" aria-label="Filter by service" className="flex min-w-0 flex-1 gap-2 overflow-x-auto pb-1 [scrollbar-width:none]">
             {FILTERS.map((f) => {
               const active = filter === f.id;
@@ -77,14 +85,14 @@ export default function WorkBrowser({ only }: { only?: FilterId }) {
         <section aria-label="Full episodes" className="mt-16">
           <h2 className="t-mono text-text-3">Full episodes</h2>
           <div className="mt-6 grid gap-[var(--gutter)] md:grid-cols-2">
-            {episodes.map((ep) => <YouTubeEmbed key={ep.youtubeId} ep={ep} />)}
+            {episodes.map((ep, i) => <YouTubeEmbed key={ep.youtubeId} ep={ep} priority={i === 0} />)}
           </div>
         </section>
       )}
 
       <LayoutGroup>
         <div className="mt-16 flex flex-col gap-16 md:gap-24">
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence mode="popLayout" initial={false}>
             {rows.map((row, r) => (
               <motion.div
                 key={row.items.map((i) => i.slug).join("|")}
@@ -99,6 +107,7 @@ export default function WorkBrowser({ only }: { only?: FilterId }) {
                   <VideoCard
                     key={it.slug}
                     item={it}
+                    priority={r === 0 && !showEpisodes}
                     onOpen={() => setParam("v", it.slug)}
                     sizes={row.kind === "vertical" ? "(max-width:768px) 50vw, 25vw" : "(max-width:768px) 100vw, 50vw"}
                   />

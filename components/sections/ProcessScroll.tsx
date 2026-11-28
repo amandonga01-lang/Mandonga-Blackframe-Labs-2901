@@ -1,45 +1,60 @@
 "use client";
-import { useRef } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import SectionHead from "./SectionHead";
 import { process } from "@/content/process";
 
-/** Desktop: the steps scroll sideways like a timeline while the section is pinned. Mobile / reduced motion: a plain list. */
+/**
+ * Desktop (motion allowed): the section pins and the steps travel sideways like a timeline. The travel distance is
+ * measured from the real track width, so the last step always lands fully in view.
+ * Mobile or reduced motion: a plain list, no pinning, no extra height.
+ */
 export default function ProcessScroll({ index }: { index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-58%"]);
-  const head = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const section = useRef<HTMLElement>(null);
+  const viewport = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLOListElement>(null);
+  const [dist, setDist] = useState(0);
+  const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end end"] });
+  // Hold still for the first and last 8% so the start and end states are readable.
+  const x = useTransform(scrollYProgress, [0.08, 0.92], [0, -dist], { clamp: true });
+
+  useEffect(() => {
+    const measure = () => {
+      if (!track.current || !viewport.current) return;
+      setDist(Math.max(0, track.current.scrollWidth - viewport.current.clientWidth));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (track.current) ro.observe(track.current);
+    if (viewport.current) ro.observe(viewport.current);
+    return () => ro.disconnect();
+  }, []);
 
   const steps = process.map((s, i) => (
-    <li key={s.title} className="relative shrink-0 md:w-[min(34vw,460px)] border-t border-muted pt-8 pr-10">
+    <li key={s.title} className="relative border-t border-muted pt-8 pr-8 md:shrink-0 md:w-[380px]">
       <span className="absolute -top-[5px] left-0 h-[9px] w-[9px] rounded-[3px] bg-muted" aria-hidden="true" />
       <p className="t-mono text-text-3">{String(i + 1).padStart(2, "0")} / {s.time}</p>
       <h3 className="t-h3 mt-4">{s.title}</h3>
-      <p className="t-body mt-3 text-[17px]">{s.body}</p>
+      <p className="t-body mt-3">{s.body}</p>
     </li>
   ));
 
   return (
-    <section ref={ref} className="relative md:h-[260vh]">
-      <div className="md:sticky md:top-0 md:h-[100svh] md:flex md:flex-col md:justify-center overflow-hidden section md:py-0">
-        <div className="wrap">
+    <section ref={section} className="relative motion-safe:md:h-[240vh]">
+      <div className="section motion-safe:md:sticky motion-safe:md:top-0 motion-safe:md:flex motion-safe:md:h-[100svh] motion-safe:md:flex-col motion-safe:md:justify-center motion-safe:md:py-0 overflow-hidden">
+        <div className="wrap w-full">
           <SectionHead index={index} label="Process" lines={["Footage in.", "**Finished edits out.**"]} />
         </div>
-        <div className="wrap mt-16 md:mt-20 w-full">
-          {reduce ? (
-            <ol className="grid gap-10 md:grid-cols-5">{steps}</ol>
-          ) : (
-            <>
-              <ol className="flex flex-col gap-12 md:hidden">{steps}</ol>
-              <div className="relative hidden md:block">
-                <motion.div aria-hidden="true" className="absolute -top-px left-0 h-px bg-signal origin-left w-full" style={{ scaleX: scrollYProgress }} />
-                <motion.span aria-hidden="true" className="absolute -top-[6px] h-[11px] w-[11px] -ml-[5px] rounded-[3px] bg-signal" style={{ left: head }} />
-                <motion.ol className="flex gap-[var(--gutter)]" style={{ x }}>{steps}</motion.ol>
-              </div>
-            </>
-          )}
+        <div className="wrap w-full mt-14 md:mt-20">
+          {/* Mobile + reduced motion: plain list */}
+          <ol className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 motion-safe:md:hidden">{steps}</ol>
+          {/* Desktop with motion: pinned horizontal track */}
+          <div ref={viewport} className="relative hidden motion-safe:md:block">
+            <motion.div aria-hidden="true" className="absolute -top-px left-0 h-px w-full origin-left bg-signal" style={{ scaleX: scrollYProgress }} />
+            <motion.ol ref={track} className="flex gap-[var(--gutter)]" style={{ x }}>
+              {steps}
+            </motion.ol>
+          </div>
         </div>
       </div>
     </section>

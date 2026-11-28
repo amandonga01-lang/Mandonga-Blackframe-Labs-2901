@@ -23,7 +23,7 @@ export const services: Service[] = [
     title: "Podcast Editing",
     promise: "The full episode, and the clips that grow it.",
     tags: ["Multicam", "Audio", "Clips", "Thumbnails"],
-    sample: "caravan-new-york",
+    sample: "neel-patel-podcast",
     summary: "Full-episode multicam edits with clean audio, cold opens, and the moments that travel cut for Shorts, Reels and TikTok.",
     whatYouGet: [
       "Multicam full-episode edit for YouTube",
@@ -116,7 +116,7 @@ export const services: Service[] = [
     deliverables: ["Finished videos, not raw AI output"],
     turnaround: "Faster than a standard edit; agreed per batch.",
     priceFrom: "",
-    faq: [{ q: "Is it just AI?", a: "No. AI handles the repetitive parts. A senior editor makes the decisions and finishes every video." }],
+    faq: [{ q: "Is it just AI?", a: "No. AI handles the repetitive parts. An experienced editor makes the decisions and finishes every video." }],
   },
 ];
 

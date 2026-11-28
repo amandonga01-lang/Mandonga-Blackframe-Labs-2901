@@ -28,32 +28,37 @@ function Inner({ items, index, onIndex, onClose }: { items: PortfolioItem[]; ind
   const prev = () => onIndex((index - 1 + items.length) % items.length);
   const next = () => onIndex((index + 1) % items.length);
 
+  // Open/close: scroll lock, Lenis pause, initial focus, focus restore. Runs once per open.
   useEffect(() => {
-    const el = panel.current!;
     const lastFocus = document.activeElement as HTMLElement | null;
-    el.querySelector<HTMLElement>("[data-autofocus]")?.focus();
+    panel.current?.querySelector<HTMLElement>("[data-autofocus]")?.focus();
+    const lenis = (window as unknown as { __lenis?: { stop: () => void; start: () => void } }).__lenis;
+    lenis?.stop();
+    document.body.style.overflow = "hidden";
+    return () => {
+      lenis?.start();
+      document.body.style.overflow = "";
+      lastFocus?.focus();
+    };
+  }, []);
+
+  // Keys, in the capture phase so native video controls can't swallow Esc.
+  useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "Tab") {
-        const f = Array.from(el.querySelectorAll<HTMLElement>("button, a, video[controls]"));
+      if (e.key === "Escape") { e.preventDefault(); onClose(); }
+      else if (e.key === "ArrowRight") next();
+      else if (e.key === "ArrowLeft") prev();
+      else if (e.key === "Tab" && panel.current) {
+        const f = Array.from(panel.current.querySelectorAll<HTMLElement>("button, a, video[controls]"));
         const first = f[0], last = f[f.length - 1];
         if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       }
     };
-    document.addEventListener("keydown", onKey);
-    const lenis = (window as unknown as { __lenis?: { stop: () => void; start: () => void } }).__lenis;
-    lenis?.stop();
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      lenis?.start();
-      document.body.style.overflow = "";
-      lastFocus?.focus();
-    };
-  });
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, items.length, onClose]);
 
   const vertical = item.format === "vertical";
   return (

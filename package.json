@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "check": "node --no-warnings --experimental-strip-types scripts/check-content.mts",
+    "prebuild": "npm run check"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",

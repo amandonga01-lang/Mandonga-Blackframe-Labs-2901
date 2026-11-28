@@ -6,23 +6,17 @@ import Reveal from "@/components/type/Reveal";
 import FinalCta from "@/components/sections/FinalCta";
 import LocalTime from "@/components/layout/LocalTime";
 import { site } from "@/content/site";
+import { houseRules } from "@/content/copy";
 
-export const metadata: Metadata = { title: "About", description: "Four editors in India. You talk to the people who cut your videos.", alternates: { canonical: "/about" } };
-
-const RULES = [
-  { t: "The cut serves the goal.", b: "A retention reel and a paid ad are different jobs. We ask what the video has to do before we touch the timeline." },
-  { t: "Test, don't guess.", b: "For ads we deliver variations, not a single final. The data picks the winner." },
-  { t: "Editors talk to clients.", b: "No account managers relaying notes. The person cutting your video reads your feedback." },
-  { t: "Say the date, hit the date.", b: "You get a delivery date before we start. If something slips, you hear it from us first." },
-];
+export const metadata: Metadata = { title: "About", description: "A four-person editing studio in India. You talk to the people who cut your videos.", alternates: { canonical: "/about" } };
 
 export default function AboutPage() {
   return (
     <>
       <PageHead
         label="About"
-        lines={["Four editors.", "**No middlemen.**"]}
-        intro={`BlackFrameLabs is a small studio in ${site.location}. We cut podcasts, talking heads, SaaS films and Meta ads for founders, creators and brands in the US, UK and beyond.`}
+        lines={["A four-person studio.", "**No middlemen.**"]}
+        intro={site.blurb}
       />
       <section className="wrap pb-[var(--section-y)]">
         <div className="grid-12 gap-y-10">
@@ -39,36 +33,41 @@ export default function AboutPage() {
         </div>
       </section>
       <section className="wrap section pt-0">
-        <SectionHead index={1} label="Team" lines={["The people", "**cutting your videos.**"]} size="t-h2" />
-        <ul className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-x-[var(--gutter)] gap-y-12">
-          {site.team.map((p, i) => (
-            <li key={p.name}>
-              <Reveal delay={i * 0.08}>
-                <div className="relative aspect-[4/5] overflow-hidden rounded-lg border border-muted bg-surface">
-                  {p.photo ? (
-                    <Image src={p.photo} alt={p.name} fill sizes="25vw" className="object-cover" />
-                  ) : (
-                    <span aria-hidden="true" className="absolute inset-0 flex items-center justify-center font-display font-light text-[56px] tracking-[-0.04em] text-text-3">
-                      {p.name.split(" ").map((x) => x[0]).join("")}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-4 text-[18px]">{p.name}</p>
-                <p className="t-mono text-text-3 mt-1">{p.role}</p>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
+        <SectionHead index={1} label="Team" lines={["The people cutting your videos."]} size="t-h2" />
+        {site.team.some((p) => p.photo) ? (
+          <ul className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-x-[var(--gutter)] gap-y-12">
+            {site.team.map((p, i) => (
+              <li key={p.name}>
+                <Reveal delay={i * 0.08}>
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-lg border border-muted bg-surface">
+                    {p.photo && <Image src={p.photo} alt={p.name} fill sizes="25vw" className="object-cover" />}
+                  </div>
+                  <p className="mt-4 text-[18px]">{p.name}</p>
+                  <p className="t-mono text-text-3 mt-1">{p.role}</p>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <ul className="mt-14 border-t border-muted/70">
+            {site.team.map((p) => (
+              <li key={p.name} className="grid grid-cols-12 gap-x-[var(--gutter)] border-b border-muted/70 py-5 items-baseline">
+                <span className="col-span-12 md:col-span-5 font-display text-[clamp(20px,1.8vw,28px)] font-light tracking-[-0.02em]">{p.name}</span>
+                <span className="t-mono col-span-12 md:col-span-7 text-text-3">{p.role}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
       <section className="wrap section pt-0">
-        <SectionHead index={2} label="House rules" lines={["How we **work.**"]} size="t-h2" />
+        <SectionHead index={2} label="House rules" lines={["How we work."]} size="t-h2" />
         <ol className="mt-16 grid gap-[var(--gutter)] md:grid-cols-2">
-          {RULES.map((r, i) => (
-            <li key={r.t}>
+          {houseRules.map((r, i) => (
+            <li key={r.title}>
               <Reveal delay={(i % 2) * 0.08} className="rounded-xl border border-muted p-8 md:p-10 h-full">
                 <p className="t-mono text-text-3">{String(i + 1).padStart(2, "0")}</p>
-                <h3 className="t-h3 mt-4">{r.t}</h3>
-                <p className="t-body mt-3 text-[17px]">{r.b}</p>
+                <h3 className="t-h3 mt-4">{r.title}</h3>
+                <p className="t-body mt-3">{r.body}</p>
               </Reveal>
             </li>
           ))}

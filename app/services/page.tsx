@@ -4,7 +4,7 @@ import TimecodeLabel from "@/components/type/TimecodeLabel";
 import RevealLines from "@/components/type/RevealLines";
 import ServicesList from "@/components/sections/ServicesList";
 import FinalCta from "@/components/sections/FinalCta";
-import { moreServices } from "@/content/services";
+import { moreServices, services } from "@/content/services";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -18,11 +18,11 @@ export default function ServicesPage() {
       <section className="wrap pt-36 md:pt-44">
         <TimecodeLabel index={0}>Services</TimecodeLabel>
         <div className="grid-12 mt-6 items-end gap-y-6">
-          <RevealLines as="h1" immediate className="t-h1 col-span-12 md:col-span-8" lines={["Six ways we", "**can help.**"]} />
-          <p className="t-body col-span-12 md:col-span-4">Each service has its own page with the work, what you get, turnaround and pricing.</p>
+          <RevealLines as="h1" immediate className="t-h1 col-span-12 md:col-span-8" lines={["Services."]} />
+          <p className="t-body col-span-12 md:col-span-4">{services.length} services, each with its own page: the work, what you get, turnaround and how it&apos;s priced.</p>
         </div>
       </section>
-      <ServicesList index={1} />
+      <div className="-mt-[var(--section-y)]"><ServicesList index={1} head={false} /></div>
       <section className="wrap section pt-0">
         <div className="rounded-xl border border-muted p-8 md:p-14 grid-12 gap-y-8">
           <div className="col-span-12 md:col-span-4">

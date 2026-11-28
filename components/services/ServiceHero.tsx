@@ -1,3 +1,4 @@
+import Image from "next/image";
 import TimecodeLabel from "../type/TimecodeLabel";
 import RevealLines from "../type/RevealLines";
 import Button from "../ui/Button";
@@ -25,7 +26,9 @@ export default function ServiceHero({ s }: { s: Service }) {
         {sample && (
           <MediaReveal className={vertical ? "col-span-8 col-start-3 md:col-start-9 md:col-span-4" : "col-span-12 md:col-start-7 md:col-span-6"}>
             <div className={`relative overflow-hidden rounded-lg bg-surface ${vertical ? "aspect-[9/16]" : "aspect-video"}`}>
-              <VideoPlayer src={sample.previewSrc} poster={sample.poster} mode="preview" active lazy={false} label={`${sample.title} sample`} className="absolute inset-0 h-full w-full" />
+              {/* Poster as a real, prioritised image (the LCP); the loop plays on top once loaded. */}
+              <Image src={sample.poster} alt="" fill priority fetchPriority="high" sizes={vertical ? "(max-width:768px) 66vw, 30vw" : "(max-width:768px) 100vw, 50vw"} className="object-cover" />
+              <VideoPlayer src={sample.previewSrc} mode="preview" active lazy={false} label={`${sample.title} sample`} className="absolute inset-0 h-full w-full" />
             </div>
           </MediaReveal>
         )}

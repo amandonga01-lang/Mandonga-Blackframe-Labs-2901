@@ -2,6 +2,7 @@ import Image from "next/image";
 import TimecodeLabel from "../type/TimecodeLabel";
 import RevealLines from "../type/RevealLines";
 import { textTestimonials, videoTestimonials } from "@/content/testimonials";
+import { sectionTimecode } from "@/lib/motion";
 
 /** The one light section. Real testimonials only; hidden while the lists are empty. */
 export const hasTestimonials = () => textTestimonials.length + videoTestimonials.length > 0;
@@ -41,7 +42,6 @@ export default function Testimonials({ index }: { index: number }) {
   );
 }
 
-import { sectionTimecode } from "@/lib/motion";
 function TimecodeInk({ index }: { index: number }) {
   return <>{sectionTimecode(index)} — In their words</>;
 }
