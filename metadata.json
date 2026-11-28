@@ -1,6 +1,0 @@
-{
-  "name": "Blackframe Labs",
-  "description": "Professional video editing and post-production studio for brands, creators, real estate teams, podcasts, agencies, and content teams.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

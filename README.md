@@ -1,14 +1,57 @@
-# Mandonga Blackframe Labs 2901
+# BlackFrameLabs website ("The Edit Bay")
 
-Professional video editing studio website for Blackframe Labs.
+Next.js (App Router) + TypeScript + Tailwind v4 + Framer Motion + Lenis + React Three Fiber. Deploys on Vercel.
 
-## Vercel deployment
+## Run it (PowerShell)
 
-Use these settings on Vercel:
+```powershell
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # production build
+npm run start      # serve the production build
+```
 
-- Framework preset: Vite
-- Install command: npm install
-- Build command: npm run build
-- Output directory: dist
+## Change content without touching components
 
-The site assets are served from the public folder and the app source is in src.
+| What | File |
+| --- | --- |
+| Agency name, email, WhatsApp, socials, hero copy, availability badge, client names, stats, team | `content/site.ts` |
+| Every video (see HOW-TO-ADD-VIDEOS.md) | `content/portfolio.ts` + `public/work/` |
+| Services and their pages | `content/services.ts` |
+| Prices / packages | `content/pricing.ts` |
+| FAQ | `content/faq.ts` |
+| Process steps | `content/process.ts` |
+| Testimonials (real only; section hidden while empty) | `content/testimonials.ts` |
+| Case studies (`published: true` to show) | `content/case-studies.ts` |
+
+Stats, testimonials, case studies and the availability badge stay **hidden until real values are filled in**.
+
+## Environment variables
+
+Copy `.env.example` to `.env.local` for local dev, and add the same names in Vercel → Settings → Environment Variables:
+
+- `NEXT_PUBLIC_ADOBE_FONTS_KIT`: Adobe Fonts web project ID with Neue Haas Grotesk Display Pro + Text Pro (until set, Helvetica Neue / Arial is used)
+- `NEXT_PUBLIC_CAL_LINK`: Cal.com handle (e.g. `blackframelabs/intro`) or a Calendly URL. Every "Book a call" button uses it.
+- `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`: contact form delivery (the FROM domain must be verified in Resend)
+- `NEXT_PUBLIC_SITE_URL`: canonical URL for SEO / sitemap / OG
+- `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` (optional)
+
+## Vercel
+
+`vercel.json` tells Vercel this is a Next.js project. If the project in the Vercel dashboard still says "Vite" under Framework Preset, switch it to "Next.js".
+
+## Scripts
+
+- `scripts/make-previews.ps1`: makes 4 s hover-preview loops and posters for new videos (needs ffmpeg).
+
+## Structure
+
+`app/` routes · `components/` (layout, type, ui, video, hero, particles, sections, work, services, case, contact) · `content/` data · `lib/` helpers · `styles/globals.css` design tokens.
+
+## Home-page particle cloud
+
+Each home-page section is wrapped in `<div data-shape="…" data-side="…">` in `app/page.tsx`. Shapes: `play`, `phone`, `timeline`, `mic`, `wave`, `globe`, `scatter` (defined in `lib/shapes.ts`). Sides: `left`, `mid`, `center`, `right`. Desktop only; off for reduced motion.
+
+## Typography
+
+Headlines are Light; wrap words in `**double stars**` to set them in Bold. The Adobe Fonts kit needs Neue Haas Grotesk Display 45 Light, 55 Roman, 75 Bold and Text 55 Roman, 65 Medium, 75 Bold, e.g. `"We edit videos", "**people actually finish**", "watching."`.
