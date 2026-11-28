@@ -10,7 +10,7 @@ This is an upgrade of the current site (Vite + React, branch `redesign-character
 
 | Keep | Detail |
 | --- | --- |
-| Brand + contact | BlackFrameLabs, hello@blackframelab.com, join@blackframelab.com, WhatsApp +91 94286 14172, IST time zone, 4-person team (Aman Donga, Het Vaghasiya, Harsh Parmar, Jimit Ramani) |
+| Brand + contact | BlackFrameLabs, hello@blackframelab.com, join@blackframelab.com, WhatsApp +91 94286 14172, IST time zone, 5-person team (Aman Donga, Het Vaghasiya, Harsh Parmar, Praful Patil, Rutul Patel) |
 | Portfolio | **41 real pieces** already compressed for web (`public/work`, 197 MB, MP4 + poster for each): 10 podcast, 12 talking-head/short-form, 5 Meta AI UGC, 7 SaaS/motion (Base360 film leads), 7 real estate/brand. 30 vertical, 11 landscape. Plus a 14 s studio montage and one full Superintelligence × DataCamp episode on YouTube. |
 | Copy that worked | Hero "We cut podcasts people finish." (vs the brief's "We edit videos people actually finish watching." — see §10, Q1), "No account managers", the 4-step process with timecodes, FAQ answers (24–48 h first cut, Drive/Frame.io, Premiere/AE/Audition, sound included, IST advantage), "Send us one video" CTA |
 | Ideas | Timecode labels, REC/playhead language, black-frame cut between pages, word-by-word headline reveal, hover-preview cards, honest form states |

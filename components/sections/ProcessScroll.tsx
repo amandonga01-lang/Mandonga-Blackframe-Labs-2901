@@ -50,7 +50,6 @@ export default function ProcessScroll({ index }: { index: number }) {
           <ol className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 motion-safe:md:hidden">{steps}</ol>
           {/* Desktop with motion: pinned horizontal track */}
           <div ref={viewport} className="relative hidden motion-safe:md:block">
-            <motion.div aria-hidden="true" className="absolute -top-px left-0 h-px w-full origin-left bg-signal" style={{ scaleX: scrollYProgress }} />
             <motion.ol ref={track} className="flex gap-[var(--gutter)]" style={{ x }}>
               {steps}
             </motion.ol>

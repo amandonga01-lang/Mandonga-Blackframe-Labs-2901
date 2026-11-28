@@ -8,14 +8,14 @@ import LocalTime from "@/components/layout/LocalTime";
 import { site } from "@/content/site";
 import { houseRules } from "@/content/copy";
 
-export const metadata: Metadata = { title: "About", description: "A four-person editing studio in India. You talk to the people who cut your videos.", alternates: { canonical: "/about" } };
+export const metadata: Metadata = { title: "About", description: "A five-person editing studio in India. You talk to the people who cut your videos.", alternates: { canonical: "/about" } };
 
 export default function AboutPage() {
   return (
     <>
       <PageHead
         label="About"
-        lines={["A four-person studio.", "**No middlemen.**"]}
+        lines={["A five-person studio.", "**No middlemen.**"]}
         intro={site.blurb}
       />
       <section className="wrap pb-[var(--section-y)]">

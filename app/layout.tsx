@@ -5,7 +5,6 @@ import "@/styles/globals.css";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import SmoothScroll from "@/components/layout/SmoothScroll";
-import ScrollPlayhead from "@/components/layout/ScrollPlayhead";
 import Cursor from "@/components/layout/Cursor";
 import Grain from "@/components/layout/Grain";
 import HashRedirect from "@/components/layout/HashRedirect";
@@ -45,7 +44,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <HashRedirect />
         <SmoothScroll />
-        <ScrollPlayhead />
         <Nav />
         <main id="main">{children}</main>
         <Footer />

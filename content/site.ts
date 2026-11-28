@@ -3,7 +3,7 @@
 export const site = {
   name: "BlackFrameLabs",
   legalName: "Blackframe Labs Pvt Ltd",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://blackframelab.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://blackframelabs.com",
   description:
     "Video editing studio for founders, SaaS teams, creators, podcasters and brands running Meta ads. Podcasts, talking heads, SaaS films and UGC ads, finished by experienced editors.",
   email: "hello@blackframelab.com",
@@ -59,13 +59,14 @@ export const site = {
   ],
 
   /** One line used in the footer and About intro. */
-  blurb: "A four-person studio in India. Podcasts, talking heads, SaaS films and Meta ads, edited by the people you talk to.",
+  blurb: "A five-person studio in India. Podcasts, talking heads, SaaS films and Meta ads, edited by the people you talk to.",
 
   team: [
     { name: "Aman Donga", role: "Co-founder, CEO", photo: "" },
     { name: "Het Vaghasiya", role: "Co-founder, creative director", photo: "" },
     { name: "Harsh Parmar", role: "Senior editor", photo: "" },
-    { name: "Jimit Ramani", role: "Editor", photo: "" },
+    { name: "Praful Patil", role: "Senior editor", photo: "" },
+    { name: "Rutul Patel", role: "Junior editor", photo: "" },
   ],
 };
 
