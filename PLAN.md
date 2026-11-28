@@ -88,7 +88,7 @@ Old links redirect: `/#/work → /work`, `/#/showcase → /work`, `/#/team → /
 --glow       radial #FE2E4B → #7A1626 → transparent, low opacity, heavy blur, bottom-left; used twice only (hero, final CTA)
 --paper      #F4F2F0   the one light (testimonials) section, with --ink text
 ```
-Contrast check (computed): white on #0F0E0E 19.3:1; 62% white 7.7:1; **40% white only 3.8:1, which fails AA for small text**, so tertiary text uses **48% white (5.0:1)** instead, and true 40% is kept for disabled states and decorative rules only. #FE2E4B on #0F0E0E 5.2:1, so red text passes AA. White text on the red button is 3.7:1, below AA for normal text; ink text on red is 5.2:1. Options: white Medium at 19 px+ bold-ish (counts as large text, needs 3:1) or ink text. I'll use **white, 18 px Medium** on desktop buttons and switch to ink text if the Lighthouse audit flags it.
+Contrast check (computed): white on #0F0E0E 19.3:1; 62% white 7.7:1; **40% white only 3.8:1, which fails AA for small text**, so tertiary text uses **48% white (5.0:1)** instead, and true 40% is kept for disabled states and decorative rules only. #FE2E4B on #0F0E0E 5.2:1, so red text passes AA. White text on the red button is 3.7:1, below AA (button labels are not "large text": that needs 24 px regular or 18.7 px bold, and Neue Haas Medium isn't bold). Ink text on red is 5.2:1, so **red buttons use #0F0E0E text**. It also reads more like a physical REC button.
 
 Film grain: fixed SVG `feTurbulence` noise at 3% opacity, `pointer-events: none`, one layer.
 
@@ -218,7 +218,7 @@ After each phase: run it, check it in a real browser at desktop + mobile, 2–3 
 3. **"Available for 2 new clients this month."** Great detail, but only if it's true and kept up to date. It lives in `content/site.ts`; empty = hidden.
 4. **7 live video textures in WebGL.** Kept, but delivered as one contact-sheet video (see §3) to hold 60 fps.
 5. **Services list with a cursor-following preview.** Lovely on desktop, invisible on touch. On mobile each row shows a small static poster instead.
-6. **Contrast.** 40% white (3.8:1) and white on #FE2E4B (3.7:1) both fail AA for small text. Tertiary text goes to 48% white; red buttons use large Medium text, or ink text if needed.
+6. **Contrast.** 40% white (3.8:1) and white on #FE2E4B (3.7:1) both fail AA for small text. Tertiary text goes to 48% white; red buttons use ink (#0F0E0E) text.
 7. **Pricing with "from $X/month"** is good for high-ticket filtering, but only if numbers exist. Until then each tier says "Custom quote" and the page still works.
 8. **Next.js vs current Vite deploy.** Vercel handles both; the project's Vercel preset will need switching from "Vite" to "Next.js" (one setting), which I'll note in the README.
 
